@@ -106,3 +106,51 @@
 
 //     return 0;
 // }
+
+#include <iostream>
+#include <bits/stdc++.h>
+
+#include "gui.h"
+
+void showMainMenu()
+{
+    std::cout << "====================" << std::endl;
+    std::cout << "  Chess Engine Menu " << std::endl;
+    std::cout << "====================" << std::endl;
+    std::cout << "1. Play a game" << std::endl;
+    std::cout << "2. Analyze a position" << std::endl;
+    std::cout << "3. Exit" << std::endl;
+    std::cout << "Enter your choice: ";
+}
+
+int main()
+{
+    GUI gui; // Create GUI instance to manage the game
+
+    bool exit = false;
+    while (!exit)
+    {
+        showMainMenu();
+
+        int choice;
+        std::cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            gui.playMode(); // Start play mode
+            break;
+        case 2:
+            gui.analyzeMode(); // Start analysis mode
+            break;
+        case 3:
+            exit = true; // Exit the program
+            std::cout << "Exiting the chess engine. Goodbye!" << std::endl;
+            break;
+        default:
+            std::cout << "Invalid choice. Please try again." << std::endl;
+        }
+    }
+
+    return 0;
+}
