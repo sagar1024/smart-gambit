@@ -114,9 +114,9 @@
 
 void showMainMenu()
 {
-    std::cout << "====================" << std::endl;
-    std::cout << "  Chess Engine Menu " << std::endl;
-    std::cout << "====================" << std::endl;
+    std::cout << "=====================" << std::endl;
+    std::cout << "     SmartGambit     " << std::endl;
+    std::cout << "=====================" << std::endl;
     std::cout << "1. Play a game" << std::endl;
     std::cout << "2. Analyze a position" << std::endl;
     std::cout << "3. Exit" << std::endl;

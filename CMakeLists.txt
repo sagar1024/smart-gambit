@@ -1,5 +1,5 @@
 # Minimum CMake version required
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.10)
 
 # Project name and version
 project(ChessEngine VERSION 1.0)
@@ -18,6 +18,7 @@ find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 set(SOURCES
     src/main.cpp
     src/board.cpp
+    src/evaluation.cpp
     src/movegen.cpp
     src/gui.cpp
     src/search.cpp
