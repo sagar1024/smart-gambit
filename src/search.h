@@ -9,10 +9,13 @@ class Search
 {
 public:
     // Constructor with maximum depth parameter
-    Search(int maxDepth);
+    Search(int maxDepth = 3);
 
     // Function to find the best move
-    std::pair<int, int> searchBestMove(Board &board, int depth, bool isWhiteTurn);
+    //std::pair<int, int> searchBestMove(Board &board, int depth, bool isWhiteTurn);
+    Move searchBestMove(Board &board, int depth, bool isWhiteTurn);
+
+    MoveGenerator moveGen;
 
 private:
     // Function to perform the minimax search with alpha-beta pruning

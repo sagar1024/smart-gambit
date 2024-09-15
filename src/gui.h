@@ -1,38 +1,36 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include <SFML/Graphics.hpp>
 #include "board.h"
+#include "movegen.h"
 #include "search.h"
+#include "move.h"
+
+#include <iostream>
+#include <vector>
 
 class GUI
 {
+private:
+    Board board;
+    MoveGenerator moveGen;
+    Search search;
+    std::vector<std::pair<int, int>> validMoves;
+    int selectedPiece;
+    bool isWhiteTurn;
+    int kingSquare;
+
 public:
     GUI();
-    void run();
-
-private:
-    sf::RenderWindow window;
-    sf::Texture piecesTexture;
-    sf::Sprite boardSprite;
-    sf::Sprite piecesSprites[32];
-    Board board;
-    SearchEngine searchEngine;
-    bool isWhiteTurn;
-
-    int selectedPiece;
-    std::vector<std::pair<int, int>> validMoves;
-
-    void loadTextures();
-    void drawBoard();
-    void drawPieces();
+    void selectMode();
+    void playMode();
+    void analyzeMode();
     void handleMouseClick(int x, int y);
-    void highlightValidMoves();
-    void movePiece(int from, int to);
     void makeEngineMove();
     bool isGameOver();
     void showEndGameMessage();
     void resetGame();
+    void loadPGN();
 };
 
-#endif // GUI_H
+#endif

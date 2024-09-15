@@ -6,25 +6,86 @@
 Search::Search(int maxDepth) : maxDepth(maxDepth) {}
 
 // Search for the best move using minimax with alpha-beta pruning
-std::pair<int, int> Search::searchBestMove(Board &board, int depth, bool isWhiteTurn)
+// std::pair<int, int> Search::searchBestMove(Board &board, int depth, bool isWhiteTurn)
+// {
+//     int bestScore = isWhiteTurn ? -10000 : 10000;
+//     std::pair<int, int> bestMove = {-1, -1};
+
+//     MoveGenerator moveGen;
+//     std::vector<std::pair<int, int>> possibleMoves = moveGen.generateMoves(board, isWhiteTurn);
+
+//     for (const auto &move : possibleMoves)
+//     {
+//         Board newBoard = board;
+//         newBoard.makeMove(move.first, move.second);
+
+//         int score = minimax(newBoard, depth - 1, -10000, 10000, !isWhiteTurn);
+
+//         if ((isWhiteTurn && score > bestScore) || (!isWhiteTurn && score < bestScore))
+//         {
+//             bestScore = score;
+//             bestMove = move;
+//         }
+//     }
+
+//     return bestMove;
+// }
+
+// Search for the best move using minimax with alpha-beta pruning
+// Move Search::searchBestMove(Board &board, int depth, bool isWhiteTurn)
+// {
+//     int bestScore = isWhiteTurn ? -10000 : 10000; // Initial best score
+//     Move bestMove(-1, -1);                        // Initialize the best move as an invalid move
+
+//     std::vector<Move> possibleMoves = moveGen.generateMoves(board, isWhiteTurn); // Generate possible moves
+
+//     for (const Move &move : possibleMoves)
+//     {
+//         Board newBoard = board;                // Make a copy of the board
+//         newBoard.makeMove(move.from, move.to); // Apply the move on the new board
+
+//         // Perform the minimax algorithm with alpha-beta pruning
+//         int score = minimax(newBoard, depth - 1, -10000, 10000, !isWhiteTurn);
+
+//         // If it's White's turn, maximize the score, otherwise minimize it
+//         if ((isWhiteTurn && score > bestScore) || (!isWhiteTurn && score < bestScore))
+//         {
+//             bestScore = score;
+//             bestMove = move; // Update the best move
+//         }
+//     }
+
+//     return bestMove;
+// }
+
+Move Search::searchBestMove(Board &board, int depth, bool isWhiteTurn)
 {
-    int bestScore = isWhiteTurn ? -10000 : 10000;
-    std::pair<int, int> bestMove = {-1, -1};
+    int bestScore = isWhiteTurn ? -10000 : 10000; // Initial best score
+    Move bestMove(-1, -1);                        // Initialize the best move as an invalid move
 
-    MoveGenerator moveGen;
-    std::vector<std::pair<int, int>> possibleMoves = moveGen.generateMoves(board, isWhiteTurn);
+    // Generate possible moves (std::pair<int, int>)
+    std::vector<std::pair<int, int>> possibleMovePairs = moveGen.generateMoves(board, isWhiteTurn);
 
-    for (const auto &move : possibleMoves)
+    // Convert std::pair<int, int> to Move
+    std::vector<Move> possibleMoves;
+    for (const auto &movePair : possibleMovePairs)
     {
-        Board newBoard = board;
-        newBoard.makeMove(move.first, move.second);
+        possibleMoves.push_back(Move(movePair.first, movePair.second));
+    }
 
+    for (const Move &move : possibleMoves)
+    {
+        Board newBoard = board;                // Make a copy of the board
+        newBoard.makeMove(move.from, move.to); // Apply the move on the new board
+
+        // Perform the minimax algorithm with alpha-beta pruning
         int score = minimax(newBoard, depth - 1, -10000, 10000, !isWhiteTurn);
 
+        // If it's White's turn, maximize the score, otherwise minimize it
         if ((isWhiteTurn && score > bestScore) || (!isWhiteTurn && score < bestScore))
         {
             bestScore = score;
-            bestMove = move;
+            bestMove = move; // Update the best move
         }
     }
 

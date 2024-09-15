@@ -605,3 +605,15 @@ bool MoveGenerator::isCheckmate(const Board &board, int kingSquare)
 
     return true;
 }
+
+// bool MoveGenerator::isStalemate(const Board &board)
+// {
+//     std::vector<Move> legalMoves = getValidMoves(board, board.isWhiteTurn());
+//     return legalMoves.empty() && !isCheckmate(board, board.isWhiteTurn() ? board.whiteKingSquare : board.blackKingSquare);
+// }
+
+bool MoveGenerator::isStalemate(const Board &board)
+{
+    std::vector<std::pair<int, int>> legalMoves = getValidMoves(board);  // Get all valid moves
+    return legalMoves.empty() && !isInCheck(board, board.isWhiteTurn ? board.whiteKingSquare : board.blackKingSquare);
+}
