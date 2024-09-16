@@ -4,6 +4,8 @@
 #include <vector>
 #include <utility>
 #include "board.h"
+#include "move.h"
+#include "movegen.h"
 
 class Search
 {

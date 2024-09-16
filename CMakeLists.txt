@@ -11,16 +11,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Include directories
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
+#Setting the path
+set(SFML_DIR "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/SFML/lib/cmake/SFML")
+
 # Find and link SFML
-find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2.6 COMPONENTS graphics window system REQUIRED)
 
 # Source files
 set(SOURCES
     src/main.cpp
-    src/board.cpp
-    src/evaluation.cpp
-    src/movegen.cpp
     src/gui.cpp
+    src/board.cpp
+    src/movegen.cpp
+    src/evaluation.cpp
     src/search.cpp
 )
 

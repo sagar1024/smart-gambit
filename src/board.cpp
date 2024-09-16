@@ -1,12 +1,13 @@
 #include <iostream>
 #include "board.h"
 #include "movegen.h"
+#include "utils.h"
 
 // Helper function to convert a square index to row and column
-std::pair<int, int> indexToRowCol(int index)
-{
-    return {index / BOARD_SIZE, index % BOARD_SIZE};
-}
+// std::pair<int, int> indexToRowCol(int index)
+// {
+//     return {index / BOARD_SIZE, index % BOARD_SIZE};
+// }
 
 // Constructor: Initialize the board
 // Board::Board()
@@ -268,18 +269,39 @@ int Board::getEnPassantTargetSquare() const
     return enPassantTargetSquare;
 }
 
+// void Board::makeMove(int fromSquare, int toSquare)
+// {
+//     // Implement logic to move a piece from one square to another
+//     auto [fromRow, fromCol] = indexToRowCol(fromSquare);
+//     auto [toRow, toCol] = indexToRowCol(toSquare);
+
+//     board[toRow][toCol] = board[fromRow][fromCol];
+//     board[fromRow][fromCol] = EMPTY;
+
+//     //Tracking the kings position
+//     updateKingPosition(fromSquare, toSquare);
+// }
+
+//The error occurs because structured bindings (auto [var1, var2] = ...) require C++17 or higher
+//Replacing the structured bindings
 void Board::makeMove(int fromSquare, int toSquare)
 {
-    // Implement logic to move a piece from one square to another
-    auto [fromRow, fromCol] = indexToRowCol(fromSquare);
-    auto [toRow, toCol] = indexToRowCol(toSquare);
+    std::pair<int, int> fromPos = indexToRowCol(fromSquare);
+    int fromRow = fromPos.first;
+    int fromCol = fromPos.second;
 
+    std::pair<int, int> toPos = indexToRowCol(toSquare);
+    int toRow = toPos.first;
+    int toCol = toPos.second;
+
+    // Perform the move on the board
     board[toRow][toCol] = board[fromRow][fromCol];
-    board[fromRow][fromCol] = EMPTY;
+    board[fromRow][fromCol] = Piece::EMPTY; // Clear the source square after the move
 
     //Tracking the kings position
     updateKingPosition(fromSquare, toSquare);
 }
+
 
 // Function to get valid moves
 std::vector<int> Board::getValidMoves(int square)

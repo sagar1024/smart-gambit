@@ -1,11 +1,13 @@
 #include <iostream>
+
 #include "movegen.h"
+#include "utils.h"
 
 // Helper function to convert a square index to row and column
-std::pair<int, int> indexToRowCol(int index)
-{
-    return {index / BOARD_SIZE, index % BOARD_SIZE};
-}
+// std::pair<int, int> indexToRowCol(int index)
+// {
+//     return {index / BOARD_SIZE, index % BOARD_SIZE};
+// }
 
 std::vector<std::pair<int, int>> MoveGenerator::generateMoves(const Board &board, bool isWhiteTurn)
 {

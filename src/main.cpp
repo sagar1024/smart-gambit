@@ -108,8 +108,6 @@
 // }
 
 #include <iostream>
-#include <bits/stdc++.h>
-
 #include "gui.h"
 
 void showMainMenu()

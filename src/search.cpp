@@ -1,5 +1,6 @@
 #include "search.h"
 #include "evaluation.h"
+#include "move.h"
 #include "movegen.h"
 
 // Constructor
