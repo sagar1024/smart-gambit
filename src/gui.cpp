@@ -244,161 +244,454 @@
 
 // Alternate code -
 
+// #include "gui.h"
+// #include "search.h"
+// #include "move.h"
+// #include "movegen.h"
+// #include "evaluation.h"
+
+// #include <iostream>
+
+// // GUI constructor
+// GUI::GUI() : selectedPiece(-1), isWhiteTurn(true)
+// {
+//     resetGame(); // Initialize the game
+// }
+
+// // Select between Play or Analyze mode
+// void GUI::selectMode()
+// {
+//     int modeChoice;
+//     std::cout << "Select mode: 1. Play  2. Analyze" << std::endl;
+//     std::cin >> modeChoice;
+
+//     if (modeChoice == 1)
+//     {
+//         playMode();
+//     }
+//     else if (modeChoice == 2)
+//     {
+//         analyzeMode();
+//     }
+//     else
+//     {
+//         std::cout << "Invalid choice!" << std::endl;
+//     }
+// }
+
+// // Play mode logic
+// void GUI::playMode()
+// {
+//     int colorChoice;
+//     std::cout << "Choose your color: 1. White  2. Black" << std::endl;
+//     std::cin >> colorChoice;
+
+//     if (colorChoice == 1)
+//     {
+//         isWhiteTurn = true;
+//     }
+//     else if (colorChoice == 2)
+//     {
+//         isWhiteTurn = false;
+//         makeEngineMove(); // Engine makes the first move as black
+//     }
+//     else
+//     {
+//         std::cout << "Invalid choice!" << std::endl;
+//     }
+
+//     // Game loop
+//     while (!isGameOver())
+//     {
+//         int x, y;
+//         std::cout << "Enter mouse click coordinates (x y): ";
+//         std::cin >> x >> y;
+//         handleMouseClick(x, y); // Handle player move
+//         makeEngineMove();       // Engine makes its move
+//     }
+
+//     showEndGameMessage(); // Display the game result
+// }
+
+// // Analyze mode logic
+// void GUI::analyzeMode()
+// {
+//     int choice;
+//     std::cout << "Select analysis option: 1. Load PGN  2. Start with initial board" << std::endl;
+//     std::cin >> choice;
+
+//     if (choice == 1)
+//     {
+//         loadPGN();
+//     }
+//     else if (choice == 2)
+//     {
+//         board.resetBoard(); // Set up the initial board position
+//     }
+//     else
+//     {
+//         std::cout << "Invalid choice!" << std::endl;
+//         return;
+//     }
+
+//     // Analysis loop
+//     while (true)
+//     {
+//         int x, y;
+//         std::cout << "Enter mouse click coordinates (x y): ";
+//         std::cin >> x >> y;
+//         handleMouseClick(x, y); // User moves pieces freely
+
+//         // After each move, ask the engine for the best move
+//         Move bestMove = search.searchBestMove(board, 3, isWhiteTurn);
+//         std::cout << "Engine suggests: " << bestMove.from << " -> " << bestMove.to << std::endl;
+//     }
+// }
+
+// // Handle mouse click events for piece selection and movement
+// void GUI::handleMouseClick(int x, int y)
+// {
+//     int col = x / BOARD_SIZE;
+//     int row = y / BOARD_SIZE;
+//     int square = row * 8 + col;
+
+//     if (selectedPiece == -1)
+//     {
+//         // Select a piece
+//         if (board.getPieceAt(row, col) != EMPTY)
+//         {
+//             selectedPiece = square;
+
+//             // Compute valid moves for the selected piece
+//             validMoves = moveGen.getValidMoves(board);
+//         }
+//     }
+//     else
+//     {
+//         // Try to move the selected piece
+//         board.makeMove(selectedPiece, square);
+//         selectedPiece = -1;
+
+//         if (isWhiteTurn)
+//         {
+//             makeEngineMove(); // Let the engine move after the player
+//         }
+//     }
+// }
+
+// // Make the engine's move
+// void GUI::makeEngineMove()
+// {
+//     Move bestMove = search.searchBestMove(board, 3, isWhiteTurn);
+//     board.makeMove(bestMove.from, bestMove.to);
+//     isWhiteTurn = !isWhiteTurn;
+// }
+
+// // Check if the game is over
+// // bool GUI::isGameOver()
+// // {
+// //     return moveGen.isCheckmate(board, kingSquare) || moveGen.isStalemate(board);
+// // }
+// bool GUI::isGameOver()
+// {
+//     kingSquare = isWhiteTurn ? board.whiteKingSquare : board.blackKingSquare;
+//     return moveGen.isCheckmate(board, kingSquare);
+// }
+
+// // Display the end game message
+// void GUI::showEndGameMessage()
+// {
+//     if (moveGen.isCheckmate(board,kingSquare))
+//     {
+//         std::string winner = isWhiteTurn ? "Black" : "White";
+//         std::cout << "Checkmate! " << winner << " wins!" << std::endl;
+//     }
+//     else if (moveGen.isStalemate(board))
+//     {
+//         std::cout << "Stalemate! It's a draw!" << std::endl;
+//     }
+// }
+
+// // Reset the game to the initial state
+// void GUI::resetGame()
+// {
+//     board.resetBoard();
+//     isWhiteTurn = true;
+//     selectedPiece = -1;
+//     validMoves.clear();
+// }
+
+// // Load a PGN file for analysis
+// void GUI::loadPGN()
+// {
+//     std::string filename;
+//     std::cout << "Enter PGN file path: ";
+//     std::cin >> filename;
+
+//     // Parse and load the PGN file
+//     // You will need to implement PGN parsing or use a third-party library.
+//     // Once loaded, set the board state.
+// }
+
+// Alternate code -
+
 #include "gui.h"
-#include "search.h"
-#include "move.h"
 #include "movegen.h"
 #include "evaluation.h"
+#include "search.h"
 
 #include <iostream>
+#include <fstream>
 
-// GUI constructor
-GUI::GUI() : selectedPiece(-1), isWhiteTurn(true)
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+
+// Constants
+const int WINDOW_SIZE = 800;
+const int SQUARE_SIZE = WINDOW_SIZE / 8;
+const std::string PIECE_TEXTURE_FILE = "pieces.png";
+
+// Constructor
+GUI::GUI() : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SmartGambit Chess Engine"), selectedPiece(-1), isWhiteTurn(true), mode(PLAY_MODE)
 {
-    resetGame(); // Initialize the game
+    loadTextures(); // Load textures for pieces
+    resetGame();    // Initialize the game
 }
 
-// Select between Play or Analyze mode
-void GUI::selectMode()
+// Load textures for the pieces
+void GUI::loadTextures()
 {
-    int modeChoice;
-    std::cout << "Select mode: 1. Play  2. Analyze" << std::endl;
-    std::cin >> modeChoice;
-
-    if (modeChoice == 1)
+    if (!piecesTexture.loadFromFile(PIECE_TEXTURE_FILE))
     {
-        playMode();
+        std::cerr << "Error loading texture: " << PIECE_TEXTURE_FILE << std::endl;
     }
-    else if (modeChoice == 2)
+
+    for (int i = 0; i < 32; ++i)
     {
-        analyzeMode();
+        piecesSprites[i].setTexture(piecesTexture);
+        piecesSprites[i].setScale(sf::Vector2f(
+            static_cast<float>(SQUARE_SIZE) / piecesTexture.getSize().x,
+            static_cast<float>(SQUARE_SIZE) / piecesTexture.getSize().y));
+    }
+}
+
+// Main game loop
+void GUI::run()
+{
+    displayModeSelection(); // Ask user to select Play/Analyze mode
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+            }
+            else if (event.type == sf::Event::MouseButtonPressed)
+            {
+                handleMouseClick(event.mouseButton.x, event.mouseButton.y);
+            }
+        }
+
+        window.clear();
+        drawBoard();
+        drawPieces();
+        window.display();
+
+        if (isGameOver() && mode == PLAY_MODE)
+        {
+            showEndGameMessage();
+            resetGame();
+        }
+    }
+}
+
+// Display mode selection to the user (Play or Analyze)
+void GUI::displayModeSelection()
+{
+    std::cout << "Select mode:\n";
+    std::cout << "1. Play against the engine\n";
+    std::cout << "2. Analyze a chess position\n";
+    std::cout << "Enter 1 or 2: ";
+    int selection;
+    std::cin >> selection;
+
+    if (selection == 1)
+    {
+        mode = PLAY_MODE;
+        std::cout << "You selected Play Mode.\n";
+        displayColorSelection(); // Ask for color
+    }
+    else if (selection == 2)
+    {
+        mode = ANALYZE_MODE;
+        std::cout << "You selected Analyze Mode.\n";
+        loadAnalyzeMode(); // Start Analyze Mode
     }
     else
     {
-        std::cout << "Invalid choice!" << std::endl;
+        std::cerr << "Invalid selection. Defaulting to Play Mode.\n";
+        mode = PLAY_MODE;
+        displayColorSelection();
     }
 }
 
-// Play mode logic
-void GUI::playMode()
+// Ask the user for their preferred color (White/Black)
+void GUI::displayColorSelection()
 {
-    int colorChoice;
-    std::cout << "Choose your color: 1. White  2. Black" << std::endl;
-    std::cin >> colorChoice;
+    std::cout << "Select your color:\n";
+    std::cout << "1. White\n";
+    std::cout << "2. Black\n";
+    std::cout << "Enter 1 or 2: ";
+    int selection;
+    std::cin >> selection;
 
-    if (colorChoice == 1)
+    if (selection == 1)
     {
+        isWhiteTurn = true; // Player starts with white
+    }
+    else if (selection == 2)
+    {
+        isWhiteTurn = false; // Engine starts with white
+        makeEngineMove();    // Engine plays first
+    }
+    else
+    {
+        std::cerr << "Invalid selection. Defaulting to White.\n";
         isWhiteTurn = true;
     }
-    else if (colorChoice == 2)
-    {
-        isWhiteTurn = false;
-        makeEngineMove(); // Engine makes the first move as black
-    }
-    else
-    {
-        std::cout << "Invalid choice!" << std::endl;
-    }
-
-    // Game loop
-    while (!isGameOver())
-    {
-        int x, y;
-        std::cout << "Enter mouse click coordinates (x y): ";
-        std::cin >> x >> y;
-        handleMouseClick(x, y); // Handle player move
-        makeEngineMove();       // Engine makes its move
-    }
-
-    showEndGameMessage(); // Display the game result
 }
 
-// Analyze mode logic
-void GUI::analyzeMode()
+// Load Analyze Mode: ask user whether to import PGN or start with an empty board
+void GUI::loadAnalyzeMode()
 {
-    int choice;
-    std::cout << "Select analysis option: 1. Load PGN  2. Start with initial board" << std::endl;
-    std::cin >> choice;
+    std::cout << "Analyze Mode:\n";
+    std::cout << "1. Import a PGN file\n";
+    std::cout << "2. Start with an empty board\n";
+    std::cout << "Enter 1 or 2: ";
+    int selection;
+    std::cin >> selection;
 
-    if (choice == 1)
+    if (selection == 1)
     {
-        loadPGN();
+        std::string pgnFile;
+        std::cout << "Enter the PGN file path: ";
+        std::cin >> pgnFile;
+        importPGN(pgnFile); // Load the PGN file
     }
-    else if (choice == 2)
+    else if (selection == 2)
     {
-        board.resetBoard(); // Set up the initial board position
+        board.resetBoard(); // Reset the board
     }
     else
     {
-        std::cout << "Invalid choice!" << std::endl;
+        std::cerr << "Invalid selection. Defaulting to an empty board.\n";
+        board.resetBoard();
+    }
+}
+
+// Import PGN file to set up the board
+void GUI::importPGN(const std::string &pgnFile)
+{
+    std::ifstream file(pgnFile);
+    if (!file.is_open())
+    {
+        std::cerr << "Error opening PGN file.\n";
         return;
     }
 
-    // Analysis loop
-    while (true)
+    std::string line;
+    while (std::getline(file, line))
     {
-        int x, y;
-        std::cout << "Enter mouse click coordinates (x y): ";
-        std::cin >> x >> y;
-        handleMouseClick(x, y); // User moves pieces freely
+        // PGN parsing logic goes here
+        std::cout << "Reading PGN file...\n";
+        // You can parse PGN and set up the board based on the game
+    }
 
-        // After each move, ask the engine for the best move
-        Move bestMove = search.searchBestMove(board, 3, isWhiteTurn);
-        std::cout << "Engine suggests: " << bestMove.from << " -> " << bestMove.to << std::endl;
+    file.close();
+    std::cout << "PGN imported successfully.\n";
+}
+
+// Draw the chessboard
+void GUI::drawBoard()
+{
+    for (int row = 0; row < 8; ++row)
+    {
+        for (int col = 0; col < 8; ++col)
+        {
+            sf::RectangleShape square(sf::Vector2f(SQUARE_SIZE, SQUARE_SIZE));
+            square.setPosition(col * SQUARE_SIZE, row * SQUARE_SIZE);
+            square.setFillColor((row + col) % 2 == 0 ? sf::Color::White : sf::Color::Black);
+            window.draw(square);
+        }
     }
 }
 
-// Handle mouse click events for piece selection and movement
+// Draw pieces on the board
+void GUI::drawPieces()
+{
+    for (int row = 0; row < 8; ++row)
+    {
+        for (int col = 0; col < 8; ++col)
+        {
+            int piece = board.getPieceAt(row, col);
+            if (piece != EMPTY)
+            {
+                int spriteIndex = getSpriteIndex(piece);
+                piecesSprites[spriteIndex].setPosition(col * SQUARE_SIZE, row * SQUARE_SIZE);
+                window.draw(piecesSprites[spriteIndex]);
+            }
+        }
+    }
+}
+
+// Handle mouse clicks for selecting and moving pieces
 void GUI::handleMouseClick(int x, int y)
 {
-    int col = x / BOARD_SIZE;
-    int row = y / BOARD_SIZE;
+    int col = x / SQUARE_SIZE;
+    int row = y / SQUARE_SIZE;
+
     int square = row * 8 + col;
 
     if (selectedPiece == -1)
     {
-        // Select a piece
         if (board.getPieceAt(row, col) != EMPTY)
         {
             selectedPiece = square;
-
-            // Compute valid moves for the selected piece
             validMoves = moveGen.getValidMoves(board);
         }
     }
     else
     {
-        // Try to move the selected piece
         board.makeMove(selectedPiece, square);
         selectedPiece = -1;
 
-        if (isWhiteTurn)
+        if (mode == PLAY_MODE && isWhiteTurn)
         {
-            makeEngineMove(); // Let the engine move after the player
+            makeEngineMove();
         }
     }
 }
 
-// Make the engine's move
-void GUI::makeEngineMove()
-{
-    Move bestMove = search.searchBestMove(board, 3, isWhiteTurn);
-    board.makeMove(bestMove.from, bestMove.to);
-    isWhiteTurn = !isWhiteTurn;
-}
-
 // Check if the game is over
-// bool GUI::isGameOver()
-// {
-//     return moveGen.isCheckmate(board, kingSquare) || moveGen.isStalemate(board);
-// }
 bool GUI::isGameOver()
 {
-    kingSquare = isWhiteTurn ? board.whiteKingSquare : board.blackKingSquare;
-    return moveGen.isCheckmate(board, kingSquare);
+    return moveGen.isCheckmate(board,kingSquare) || moveGen.isStalemate(board);
 }
 
-// Display the end game message
+// Reset the game to initial state
+void GUI::resetGame()
+{
+    board.resetBoard();
+    isWhiteTurn = true;
+    selectedPiece = -1;
+    validMoves.clear();
+}
+
+// Show the endgame message
 void GUI::showEndGameMessage()
 {
     if (moveGen.isCheckmate(board,kingSquare))
@@ -410,25 +703,4 @@ void GUI::showEndGameMessage()
     {
         std::cout << "Stalemate! It's a draw!" << std::endl;
     }
-}
-
-// Reset the game to the initial state
-void GUI::resetGame()
-{
-    board.resetBoard();
-    isWhiteTurn = true;
-    selectedPiece = -1;
-    validMoves.clear();
-}
-
-// Load a PGN file for analysis
-void GUI::loadPGN()
-{
-    std::string filename;
-    std::cout << "Enter PGN file path: ";
-    std::cin >> filename;
-
-    // Parse and load the PGN file
-    // You will need to implement PGN parsing or use a third-party library.
-    // Once loaded, set the board state.
 }
