@@ -1,49 +1,5 @@
-# # Minimum CMake version required
-# cmake_minimum_required(VERSION 3.10)
-
-# # Project name and version
-# project(ChessEngine VERSION 1.0)
-
-# # Set the C++ standard
-# set(CMAKE_CXX_STANDARD 17)
-# set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-# # Include directories
-# include_directories(${PROJECT_SOURCE_DIR}/include)
-
-# # Path to SFML library
-# set(SFML_DIR "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/SFML/lib/cmake/SFML")
-
-# # Find and link SFML
-# find_package(SFML 2.6 COMPONENTS graphics window system REQUIRED)
-
-# if(SFML_FOUND)
-#     message(STATUS "SFML found in ${SFML_DIR}")
-# else()
-#     message(FATAL_ERROR "SFML not found. Make sure the SFML_DIR is set correctly.")
-# endif()
-
-# # Source files
-# set(SOURCES
-#     src/main.cpp
-#     src/gui.cpp
-#     src/board.cpp
-#     src/movegen.cpp
-#     src/evaluation.cpp
-#     src/search.cpp
-# )
-
-# # Add executable
-# add_executable(ChessEngine ${SOURCES})
-
-# # Link SFML libraries to the executable
-# target_link_libraries(ChessEngine sfml-graphics sfml-window sfml-system)
-
-# # Post-build message
-# message(STATUS "ChessEngine project built successfully.")
-
 # Minimum CMake version required
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.30)
 
 # Project name and version
 project(ChessEngine VERSION 1.0)

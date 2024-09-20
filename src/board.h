@@ -5,6 +5,7 @@
 #include <iostream>
 #include <array>
 #include <vector>
+#include <stack>
 
 // Enum to represent pieces and empty squares
 enum Piece
@@ -24,6 +25,18 @@ enum Piece
     KING_B
 };
 
+// Helper function to check if a piece is white
+bool isWhitePiece(Piece piece)
+{
+    return piece >= PAWN_W && piece <= KING_W; // Assuming white pieces are defined in this range
+}
+
+// Helper function to check if a piece is black
+bool isBlackPiece(Piece piece)
+{
+    return piece >= PAWN_B && piece <= KING_B; // Assuming black pieces are defined in this range
+}
+
 // Constants for board size
 const int BOARD_SIZE = 8;
 
@@ -33,6 +46,8 @@ public:
     Board();                                  // Constructor to initialize the board
     void displayBoard() const;                // Function to display the board
     Piece getPieceAt(int row, int col) const; // Function to get the piece at a specific row and column
+
+    void setupInitialPosition(); // Function to set up the initial chess position
 
     bool isEmptySquare(int row, int col) const;
 
@@ -98,9 +113,11 @@ public:
         isWhiteTurn = !isWhiteTurn;
     }
 
+    void undoMove();
+    void reset();
+
 private:
     std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> board; // 8x8 board
-    void setupInitialPosition();                                 // Function to set up the initial chess position
 
     // Variable to store the en passant target square
     int enPassantTargetSquare;
@@ -112,6 +129,9 @@ private:
     bool blackKingMoved;
     bool blackRookKingSideMoved;
     bool blackRookQueenSideMoved;
+
+    std::stack<Move> moveHistory; // Stack to store the history of moves
+    std::stack<Piece> capturedPieces; // Stack to store captured pieces
 };
 
 #endif // BOARD_H

@@ -20,7 +20,7 @@ Board::Board()
       blackKingMoved(false), blackRookKingSideMoved(false), blackRookQueenSideMoved(false)
 {
     setupInitialPosition();
-    isWhiteTurn = true; //White starts first
+    isWhiteTurn = true; // White starts first
 }
 
 // Function to set up the initial position of the chessboard
@@ -282,26 +282,39 @@ int Board::getEnPassantTargetSquare() const
 //     updateKingPosition(fromSquare, toSquare);
 // }
 
-//The error occurs because structured bindings (auto [var1, var2] = ...) require C++17 or higher
-//Replacing the structured bindings
+// The error occurs because structured bindings (auto [var1, var2] = ...) require C++17 or higher
+// Replacing the structured bindings
+//  void Board::makeMove(int fromSquare, int toSquare)
+//  {
+//      std::pair<int, int> fromPos = indexToRowCol(fromSquare);
+//      int fromRow = fromPos.first;
+//      int fromCol = fromPos.second;
+
+//     std::pair<int, int> toPos = indexToRowCol(toSquare);
+//     int toRow = toPos.first;
+//     int toCol = toPos.second;
+
+//     // Perform the move on the board
+//     board[toRow][toCol] = board[fromRow][fromCol];
+//     board[fromRow][fromCol] = Piece::EMPTY; // Clear the source square after the move
+
+//     //Tracking the kings position
+//     updateKingPosition(fromSquare, toSquare);
+// }
+
 void Board::makeMove(int fromSquare, int toSquare)
 {
-    std::pair<int, int> fromPos = indexToRowCol(fromSquare);
-    int fromRow = fromPos.first;
-    int fromCol = fromPos.second;
+    Piece capturedPiece = board[toSquare / BOARD_SIZE][toSquare % BOARD_SIZE]; // Get the captured piece
+    moveHistory.push(Move(fromSquare, toSquare));                              // Record the move
+    capturedPieces.push(capturedPiece);                                        // Record the captured piece (even if it's EMPTY)
 
-    std::pair<int, int> toPos = indexToRowCol(toSquare);
-    int toRow = toPos.first;
-    int toCol = toPos.second;
+    board[toSquare / BOARD_SIZE][toSquare % BOARD_SIZE] = board[fromSquare / BOARD_SIZE][fromSquare % BOARD_SIZE]; // Move the piece
+    board[fromSquare / BOARD_SIZE][fromSquare % BOARD_SIZE] = EMPTY;                                               // Clear the original square
 
-    // Perform the move on the board
-    board[toRow][toCol] = board[fromRow][fromCol];
-    board[fromRow][fromCol] = Piece::EMPTY; // Clear the source square after the move
+    updateKingPosition(fromSquare, toSquare); // Update king's position if necessary
 
-    //Tracking the kings position
-    updateKingPosition(fromSquare, toSquare);
+    switchTurn(); // Switch the turn
 }
-
 
 // Function to get valid moves
 std::vector<int> Board::getValidMoves(int square)
@@ -873,4 +886,33 @@ void Board::resetBoard()
     blackRookKingSideMoved = false;
     blackRookQueenSideMoved = false;
     enPassantTargetSquare = -1;
+}
+
+void Board::undoMove()
+{
+    if (!moveHistory.empty())
+    {
+        // Get the last move
+        Move lastMove = moveHistory.top();
+        moveHistory.pop();
+
+        // Revert the move on the board
+        board[lastMove.from / BOARD_SIZE][lastMove.from % BOARD_SIZE] = board[lastMove.to / BOARD_SIZE][lastMove.to % BOARD_SIZE];
+        board[lastMove.to / BOARD_SIZE][lastMove.to % BOARD_SIZE] = capturedPieces.top(); // Restore captured piece (if any)
+        capturedPieces.pop();
+
+        // Update the king's position if necessary
+        updateKingPosition(lastMove.to, lastMove.from);
+
+        // Switch turn back to the previous player
+        switchTurn();
+    }
+}
+
+void Board::reset()
+{
+    setupInitialPosition();               // Reset the board to its initial setup
+    moveHistory = std::stack<Move>();     // Clear the move history
+    capturedPieces = std::stack<Piece>(); // Clear the captured pieces stack
+    isWhiteTurn = true;                   // Reset the turn to white
 }

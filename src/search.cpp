@@ -3,6 +3,8 @@
 #include "move.h"
 #include "movegen.h"
 
+#include <iostream>
+
 // Constructor
 Search::Search(int maxDepth) : maxDepth(maxDepth) {}
 

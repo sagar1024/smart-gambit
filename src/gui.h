@@ -1,133 +1,118 @@
 // #ifndef GUI_H
 // #define GUI_H
 
+// #include <SFML/Graphics.hpp>
+
 // #include "board.h"
 // #include "movegen.h"
-// #include "search.h"
-// #include "move.h"
-
-// #include <iostream>
 // #include <vector>
+// #include <string>
+
+// enum GameMode
+// {
+//     PLAY_MODE,
+//     ANALYZE_MODE
+// };
 
 // class GUI
 // {
-// private:
-//     Board board;
-//     MoveGenerator moveGen;
-//     Search search;
-//     std::vector<std::pair<int, int>> validMoves;
-//     int selectedPiece;
-//     bool isWhiteTurn;
-//     int kingSquare;
-
 // public:
 //     GUI();
-//     void selectMode();
-//     void playMode();
-//     void analyzeMode();
+//     void run();
+
+//     //Defining functions
+//     void drawLogo();
+//     void drawMenu();
+
+// private:
+//     // Window and GUI elements
+//     sf::RenderWindow window;
+//     sf::Texture logoTexture;
+//     sf::Sprite logoSprite;
+//     sf::Texture piecesTextures[12];   // 6 piece types for both white and black
+//     sf::RectangleShape squares[8][8]; // Board squares
+//     sf::Font font;
+//     sf::Text menuText;
+
+//     // Game state
+//     Board board;
+//     MoveGenerator moveGen;
+//     std::vector<sf::Sprite> piecesSprites;
+//     int selectedPiece;
+//     bool isWhiteTurn;
+//     GameMode mode;
+
+//     // Load resources
+//     void loadTextures();
+//     void loadLogo();
+//     void drawBoard();
+//     void drawPieces();
 //     void handleMouseClick(int x, int y);
-//     void makeEngineMove();
+//     void displayModeSelection();
+//     void displayColorSelection();
+//     void loadAnalyzeMode();
+//     void importPGN(const std::string &pgnFile);
 //     bool isGameOver();
-//     void showEndGameMessage();
 //     void resetGame();
-//     void loadPGN();
+//     void makeEngineMove();
+//     void showEndGameMessage();
 // };
 
-// #endif
+// #endif // GUI_H
 
 #ifndef GUI_H
 #define GUI_H
 
 #include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
-
-#include <vector>
 #include "board.h"
 #include "movegen.h"
+#include "evaluation.h"
 #include "search.h"
+#include <map>
+#include <string>
 
-// Enumeration to define different modes
-enum GameMode
-{
-    PLAY_MODE,
-    ANALYZE_MODE
-};
-
-// GUI class definition
 class GUI
 {
 public:
-    // Constructor
-    GUI();
+    GUI(sf::RenderWindow &window); // Constructor to load textures and initialize the window
 
-    // Run the main GUI loop
-    void run();
+    void run(); // Main loop for running the GUI (handling play and analyze modes)
+
+    bool isWhite;
+
+    // Play Mode and Analyze Mode
+    void playMode(bool isWhite);    // Play game logic
+    void analyzeMode(); // Analyze game logic
 
 private:
-    // SFML window for the GUI
-    sf::RenderWindow window;
+    // Window and textures
+    sf::RenderWindow &window; //Refrence to the window(Important!)
+    sf::Texture boardTexture, whitePiecesTexture, blackPiecesTexture, logoTexture;
+    std::map<std::string, sf::Texture> pieceTextures;
 
-    // Texture for the chess pieces
-    sf::Texture piecesTexture;
+    // Sprites for board, pieces, and logo
+    sf::Sprite boardSprite;
+    sf::Sprite logoSprite;
+    std::map<std::string, sf::Sprite> pieceSprites;
 
-    // Sprites for the chess pieces
-    sf::Sprite piecesSprites[32];
+    // Chessboard grid constants
+    static const int boardSize = 8;
+    static const float tileSize;
 
-    // Game mode: play or analyze
-    GameMode mode;
-
-    // Board and move generator
+    // Board state
     Board board;
     MoveGenerator moveGen;
+    Evaluation evaluation;
     Search search;
-    std::vector<std::pair<int, int>> validMoves;
     int kingSquare;
-
-    // Selected piece for movement (-1 if none)
-    int selectedPiece;
-
-    // Flag for tracking the player's turn (true = white's turn)
     bool isWhiteTurn;
 
-    // Load textures for the chess pieces
-    void loadTextures();
-
-    // Draw the chessboard on the window
-    void drawBoard();
-
-    // Draw the chess pieces on the window
-    void drawPieces();
-
-    // Handle mouse clicks for selecting and moving pieces
-    void handleMouseClick(int x, int y);
-
-    // Check if the game is over (checkmate or stalemate)
-    bool isGameOver();
-
-    // Reset the game to the initial state
-    void resetGame();
-
-    // Show the endgame message
-    void showEndGameMessage();
-
-    // Display mode selection (play or analyze)
-    void displayModeSelection();
-
-    // Display color selection for Play Mode
-    void displayColorSelection();
-
-    // Load Analyze Mode: ask user for PGN import or empty board
-    void loadAnalyzeMode();
-
-    // Import PGN file to set up the board
-    void importPGN(const std::string &pgnFile);
-
-    // Make a move for the chess engine
-    void makeEngineMove(); // You may implement this in your engine logic
-
-    // Get the sprite index for a given piece
-    int getSpriteIndex(int piece); // Helper function to map pieces to texture sprites
+    // Helper functions
+    void loadTextures(); // Load textures for pieces, board, and logo
+    void drawBoard();    // Draw the chessboard
+    void drawPieces();   // Draw the chess pieces based on the board state
+    void handleInput();  // Handle user input for piece movement
+    void handleMenu();   // Handle the main menu for Play, Analyze, or Exit
 };
 
 #endif // GUI_H
