@@ -275,10 +275,19 @@ Project_IS_TOP_LEVEL:STATIC=ON
 Project_SOURCE_DIR:STATIC=C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess
 
 //The directory containing a CMake configuration file for SFML.
-SFML_DIR:PATH=SFML_DIR-NOTFOUND
+SFML_DIR:PATH=C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/lib/cmake/SFML
 
 //Path to a file.
 SFML_DOC_DIR:PATH=SFML_DOC_DIR-NOTFOUND
+
+//Value Computed by CMake
+SmartGambitChess_BINARY_DIR:STATIC=C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build
+
+//Value Computed by CMake
+SmartGambitChess_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+SmartGambitChess_SOURCE_DIR:STATIC=C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess
 
 
 ########################

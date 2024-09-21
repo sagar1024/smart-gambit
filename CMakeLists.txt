@@ -1,5 +1,5 @@
 # Minimum CMake version required
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.30.3)
 
 # Project name and version
 project(ChessEngine VERSION 1.0)
@@ -12,11 +12,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # Path to SFML library
-# Modify the SFML_DIR based on your project structure
 set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/cmake/SFML")
 
 # Find and link SFML components
-find_package(SFML 2.6 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2.6.1 COMPONENTS graphics window system REQUIRED)
 
 # Check if SFML was found successfully
 if(SFML_FOUND)
@@ -61,3 +60,4 @@ endif()
 
 # Post-build success message
 message(STATUS "ChessEngine project built successfully.")
+

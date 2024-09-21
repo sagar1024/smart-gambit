@@ -173,8 +173,12 @@
 
 // Alternate code -
 
-#include <SFML/Graphics.hpp>
+#include "board.h"
 #include "gui.h"
+#include "move.h"
+#include "movegen.h"
+
+#include <SFML/Graphics.hpp>
 #include <iostream>
 
 int main()
