@@ -628,3 +628,191 @@ events:
       Running the CXX compiler's linker: "c:/mingw/mingw32/bin/ld.exe" "-v"
       GNU ld (GNU Binutils) 2.28
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CheckIncludeFile.cmake:90 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CheckTypeSize.cmake:251 (check_include_file)"
+      - "build/_deps/sfml-src/cmake/Config.cmake:10 (check_type_size)"
+      - "build/_deps/sfml-src/CMakeLists.txt:34 (include)"
+    checks:
+      - "Looking for sys/types.h"
+    directories:
+      source: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-29ytri"
+      binary: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-29ytri"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: "13.0"
+      CMAKE_USER_MAKE_RULES_OVERRIDE: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/_deps/sfml-src/cmake/CompilerOptionsOverride.cmake"
+    buildResult:
+      variable: "HAVE_SYS_TYPES_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-29ytri'
+        
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/mingw32/bin/mingw32-make.exe -f Makefile cmTC_030e1/fast
+        C:/mingw32/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_030e1.dir\\build.make CMakeFiles/cmTC_030e1.dir/build
+        mingw32-make.exe[1]: Entering directory 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-29ytri'
+        Building C object CMakeFiles/cmTC_030e1.dir/CheckIncludeFile.c.obj
+        C:\\MinGW\\bin\\gcc.exe    -o CMakeFiles\\cmTC_030e1.dir\\CheckIncludeFile.c.obj -c "C:\\Users\\DELL\\Documents\\PROJECTS\\7. SmartGambit\\MAIN Project2\\chess\\build\\CMakeFiles\\CMakeScratch\\TryCompile-29ytri\\CheckIncludeFile.c"
+        Linking C executable cmTC_030e1.exe
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_030e1.dir\\link.txt --verbose=1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_030e1.dir/objects.a
+        C:\\MinGW\\bin\\ar.exe qc CMakeFiles\\cmTC_030e1.dir/objects.a @CMakeFiles\\cmTC_030e1.dir\\objects1.rsp
+        C:\\MinGW\\bin\\gcc.exe -Wl,--whole-archive CMakeFiles\\cmTC_030e1.dir/objects.a -Wl,--no-whole-archive -o cmTC_030e1.exe -Wl,--out-implib,libcmTC_030e1.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_030e1.dir\\linkLibs.rsp
+        mingw32-make.exe[1]: Leaving directory 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-29ytri'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CheckIncludeFile.cmake:90 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CheckTypeSize.cmake:252 (check_include_file)"
+      - "build/_deps/sfml-src/cmake/Config.cmake:10 (check_type_size)"
+      - "build/_deps/sfml-src/CMakeLists.txt:34 (include)"
+    checks:
+      - "Looking for stdint.h"
+    directories:
+      source: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-8htmll"
+      binary: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-8htmll"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: "13.0"
+      CMAKE_USER_MAKE_RULES_OVERRIDE: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/_deps/sfml-src/cmake/CompilerOptionsOverride.cmake"
+    buildResult:
+      variable: "HAVE_STDINT_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-8htmll'
+        
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/mingw32/bin/mingw32-make.exe -f Makefile cmTC_5e3d8/fast
+        C:/mingw32/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_5e3d8.dir\\build.make CMakeFiles/cmTC_5e3d8.dir/build
+        mingw32-make.exe[1]: Entering directory 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-8htmll'
+        Building C object CMakeFiles/cmTC_5e3d8.dir/CheckIncludeFile.c.obj
+        C:\\MinGW\\bin\\gcc.exe    -o CMakeFiles\\cmTC_5e3d8.dir\\CheckIncludeFile.c.obj -c "C:\\Users\\DELL\\Documents\\PROJECTS\\7. SmartGambit\\MAIN Project2\\chess\\build\\CMakeFiles\\CMakeScratch\\TryCompile-8htmll\\CheckIncludeFile.c"
+        Linking C executable cmTC_5e3d8.exe
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_5e3d8.dir\\link.txt --verbose=1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_5e3d8.dir/objects.a
+        C:\\MinGW\\bin\\ar.exe qc CMakeFiles\\cmTC_5e3d8.dir/objects.a @CMakeFiles\\cmTC_5e3d8.dir\\objects1.rsp
+        C:\\MinGW\\bin\\gcc.exe -Wl,--whole-archive CMakeFiles\\cmTC_5e3d8.dir/objects.a -Wl,--no-whole-archive -o cmTC_5e3d8.exe -Wl,--out-implib,libcmTC_5e3d8.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_5e3d8.dir\\linkLibs.rsp
+        mingw32-make.exe[1]: Leaving directory 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-8htmll'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CheckIncludeFile.cmake:90 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CheckTypeSize.cmake:253 (check_include_file)"
+      - "build/_deps/sfml-src/cmake/Config.cmake:10 (check_type_size)"
+      - "build/_deps/sfml-src/CMakeLists.txt:34 (include)"
+    checks:
+      - "Looking for stddef.h"
+    directories:
+      source: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-6p3ce7"
+      binary: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-6p3ce7"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: "13.0"
+      CMAKE_USER_MAKE_RULES_OVERRIDE: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/_deps/sfml-src/cmake/CompilerOptionsOverride.cmake"
+    buildResult:
+      variable: "HAVE_STDDEF_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-6p3ce7'
+        
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/mingw32/bin/mingw32-make.exe -f Makefile cmTC_c1b6f/fast
+        C:/mingw32/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_c1b6f.dir\\build.make CMakeFiles/cmTC_c1b6f.dir/build
+        mingw32-make.exe[1]: Entering directory 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-6p3ce7'
+        Building C object CMakeFiles/cmTC_c1b6f.dir/CheckIncludeFile.c.obj
+        C:\\MinGW\\bin\\gcc.exe    -o CMakeFiles\\cmTC_c1b6f.dir\\CheckIncludeFile.c.obj -c "C:\\Users\\DELL\\Documents\\PROJECTS\\7. SmartGambit\\MAIN Project2\\chess\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6p3ce7\\CheckIncludeFile.c"
+        Linking C executable cmTC_c1b6f.exe
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_c1b6f.dir\\link.txt --verbose=1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_c1b6f.dir/objects.a
+        C:\\MinGW\\bin\\ar.exe qc CMakeFiles\\cmTC_c1b6f.dir/objects.a @CMakeFiles\\cmTC_c1b6f.dir\\objects1.rsp
+        C:\\MinGW\\bin\\gcc.exe -Wl,--whole-archive CMakeFiles\\cmTC_c1b6f.dir/objects.a -Wl,--no-whole-archive -o cmTC_c1b6f.exe -Wl,--out-implib,libcmTC_c1b6f.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_c1b6f.dir\\linkLibs.rsp
+        mingw32-make.exe[1]: Leaving directory 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-6p3ce7'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CheckTypeSize.cmake:147 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CheckTypeSize.cmake:272 (__check_type_size_impl)"
+      - "build/_deps/sfml-src/cmake/Config.cmake:10 (check_type_size)"
+      - "build/_deps/sfml-src/CMakeLists.txt:34 (include)"
+    checks:
+      - "Check size of void*"
+    directories:
+      source: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-j1e9ie"
+      binary: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-j1e9ie"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: "13.0"
+      CMAKE_USER_MAKE_RULES_OVERRIDE: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/_deps/sfml-src/cmake/CompilerOptionsOverride.cmake"
+    buildResult:
+      variable: "HAVE_SIZEOF_VOID_PTR"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-j1e9ie'
+        
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/mingw32/bin/mingw32-make.exe -f Makefile cmTC_5b13c/fast
+        C:/mingw32/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_5b13c.dir\\build.make CMakeFiles/cmTC_5b13c.dir/build
+        mingw32-make.exe[1]: Entering directory 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-j1e9ie'
+        Building C object CMakeFiles/cmTC_5b13c.dir/SIZEOF_VOID_PTR.c.obj
+        C:\\MinGW\\bin\\gcc.exe    -o CMakeFiles\\cmTC_5b13c.dir\\SIZEOF_VOID_PTR.c.obj -c "C:\\Users\\DELL\\Documents\\PROJECTS\\7. SmartGambit\\MAIN Project2\\chess\\build\\CMakeFiles\\CMakeScratch\\TryCompile-j1e9ie\\SIZEOF_VOID_PTR.c"
+        Linking C executable cmTC_5b13c.exe
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_5b13c.dir\\link.txt --verbose=1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_5b13c.dir/objects.a
+        C:\\MinGW\\bin\\ar.exe qc CMakeFiles\\cmTC_5b13c.dir/objects.a @CMakeFiles\\cmTC_5b13c.dir\\objects1.rsp
+        C:\\MinGW\\bin\\gcc.exe -Wl,--whole-archive CMakeFiles\\cmTC_5b13c.dir/objects.a -Wl,--no-whole-archive -o cmTC_5b13c.exe -Wl,--out-implib,libcmTC_5b13c.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_5b13c.dir\\linkLibs.rsp
+        mingw32-make.exe[1]: Leaving directory 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-j1e9ie'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CheckIncludeFile.cmake:90 (try_compile)"
+      - "build/_deps/sfml-src/src/SFML/Window/CMakeLists.txt:332 (check_include_file)"
+    checks:
+      - "Looking for dinput.h"
+    directories:
+      source: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-wg4inv"
+      binary: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-wg4inv"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/_deps/sfml-src/cmake/Modules/"
+      CMAKE_OSX_DEPLOYMENT_TARGET: "13.0"
+      CMAKE_USER_MAKE_RULES_OVERRIDE: "C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/_deps/sfml-src/cmake/CompilerOptionsOverride.cmake"
+    buildResult:
+      variable: "DINPUT_H_FOUND"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-wg4inv'
+        
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/mingw32/bin/mingw32-make.exe -f Makefile cmTC_2c89b/fast
+        C:/mingw32/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_2c89b.dir\\build.make CMakeFiles/cmTC_2c89b.dir/build
+        mingw32-make.exe[1]: Entering directory 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-wg4inv'
+        Building C object CMakeFiles/cmTC_2c89b.dir/CheckIncludeFile.c.obj
+        C:\\MinGW\\bin\\gcc.exe    -o CMakeFiles\\cmTC_2c89b.dir\\CheckIncludeFile.c.obj -c "C:\\Users\\DELL\\Documents\\PROJECTS\\7. SmartGambit\\MAIN Project2\\chess\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wg4inv\\CheckIncludeFile.c"
+        Linking C executable cmTC_2c89b.exe
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_2c89b.dir\\link.txt --verbose=1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_2c89b.dir/objects.a
+        C:\\MinGW\\bin\\ar.exe qc CMakeFiles\\cmTC_2c89b.dir/objects.a @CMakeFiles\\cmTC_2c89b.dir\\objects1.rsp
+        C:\\MinGW\\bin\\gcc.exe -Wl,--whole-archive CMakeFiles\\cmTC_2c89b.dir/objects.a -Wl,--no-whole-archive -o cmTC_2c89b.exe -Wl,--out-implib,libcmTC_2c89b.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_2c89b.dir\\linkLibs.rsp
+        mingw32-make.exe[1]: Leaving directory 'C:/Users/DELL/Documents/PROJECTS/7. SmartGambit/MAIN Project2/chess/build/CMakeFiles/CMakeScratch/TryCompile-wg4inv'
+        
+      exitCode: 0
+...

@@ -25,17 +25,8 @@ enum Piece
     KING_B
 };
 
-// Helper function to check if a piece is white
-bool isWhitePiece(Piece piece)
-{
-    return piece >= PAWN_W && piece <= KING_W; // Assuming white pieces are defined in this range
-}
-
-// Helper function to check if a piece is black
-bool isBlackPiece(Piece piece)
-{
-    return piece >= PAWN_B && piece <= KING_B; // Assuming black pieces are defined in this range
-}
+bool isWhitePiece(Piece piece);
+bool isBlackPiece(Piece piece);
 
 // Constants for board size
 const int BOARD_SIZE = 8;

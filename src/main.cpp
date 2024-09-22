@@ -174,16 +174,18 @@
 // Alternate code -
 
 #include "board.h"
+#include "evaluation.h"
 #include "gui.h"
 #include "move.h"
 #include "movegen.h"
+#include "search.h"
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 800), "SmartGambit Chess Engine");
+    sf::RenderWindow window(sf::VideoMode(900,900), "SmartGambit Chess Engine");
 
     // Load the logo texture
     sf::Texture logoTexture;
@@ -196,7 +198,7 @@ int main()
     // Create sprite for the logo
     sf::Sprite logoSprite;
     logoSprite.setTexture(logoTexture);
-    logoSprite.setPosition(150, 10); // Position it at the top
+    logoSprite.setPosition(90, 10); // Position it at the top
 
     // Load font
     sf::Font font;
@@ -222,9 +224,9 @@ int main()
         sf::Text analyzeText("2. Analyze", font, 40);
         sf::Text exitText("3. Exit", font, 40);
 
-        playText.setPosition(300, 250);
-        analyzeText.setPosition(300, 350);
-        exitText.setPosition(300, 450);
+        playText.setPosition(300, 450);
+        analyzeText.setPosition(300, 500);
+        exitText.setPosition(300, 550);
 
         window.draw(playText);
         window.draw(analyzeText);
@@ -314,8 +316,8 @@ int main()
                             sf::Text pgnText("Import PGN", font, 30);
                             sf::Text initialText("Initial Board Setup", font, 30);
 
-                            pgnText.setPosition(300, 250);
-                            initialText.setPosition(300, 350);
+                            pgnText.setPosition(300, 450);
+                            initialText.setPosition(300, 500);
 
                             window.draw(pgnText);
                             window.draw(initialText);
