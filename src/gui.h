@@ -113,6 +113,8 @@ private:
     void drawPieces();   // Draw the chess pieces based on the board state
     void handleInput();  // Handle user input for piece movement
     void handleMenu();   // Handle the main menu for Play, Analyze, or Exit
+
+    bool isPieceOnSquare(const sf::Vector2i& square); // Declaration
 };
 
 #endif // GUI_H

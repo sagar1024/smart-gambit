@@ -185,7 +185,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(900,900), "SmartGambit Chess Engine");
+    sf::RenderWindow window(sf::VideoMode(1000,1200), "SmartGambit Chess Engine");
 
     // Load the logo texture
     sf::Texture logoTexture;

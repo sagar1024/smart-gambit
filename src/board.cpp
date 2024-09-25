@@ -928,3 +928,4 @@ bool isBlackPiece(Piece piece)
 {
     return piece >= PAWN_B && piece <= KING_B; // Assuming black pieces are defined in this range
 }
+

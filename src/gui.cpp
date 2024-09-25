@@ -663,7 +663,26 @@ void GUI::drawPieces()
                 pieceSprite.setTexture(pieceTextures["whitePawn"]);
             else if (piece == KNIGHT_W)
                 pieceSprite.setTexture(pieceTextures["whiteKnight"]);
-            // Add other piece mappings...
+            else if (piece == BISHOP_W)
+                pieceSprite.setTexture(pieceTextures["whiteBishop"]);
+            else if (piece == ROOK_W)
+                pieceSprite.setTexture(pieceTextures["whiteRook"]);
+            else if (piece == QUEEN_W)
+                pieceSprite.setTexture(pieceTextures["whiteQueen"]);
+            else if (piece == KING_W)
+                pieceSprite.setTexture(pieceTextures["whiteKing"]);
+            else if (piece == PAWN_B)
+                pieceSprite.setTexture(pieceTextures["blackPawn"]);
+            else if (piece == KNIGHT_B)
+                pieceSprite.setTexture(pieceTextures["blackKnight"]);
+            else if (piece == BISHOP_B)
+                pieceSprite.setTexture(pieceTextures["blackBishop"]);
+            else if (piece == ROOK_B)
+                pieceSprite.setTexture(pieceTextures["blackRook"]);
+            else if (piece == QUEEN_B)
+                pieceSprite.setTexture(pieceTextures["blackQueen"]);
+            else if (piece == KING_B)
+                pieceSprite.setTexture(pieceTextures["blackKing"]);
 
             // Set the position of the piece on the board
             pieceSprite.setPosition(col * tileSize, (row + 1) * tileSize); // Adjust based on grid size
@@ -672,18 +691,70 @@ void GUI::drawPieces()
     }
 }
 
-// Handle input for piece movement
-void GUI::handleInput()
+// // Handle input for piece movement
+// void GUI::handleInput()
+// {
+//     sf::Event event;
+//     while (window.pollEvent(event))
+//     {
+//         if (event.type == sf::Event::Closed)
+//             window.close();
+
+//         if (event.type == sf::Event::MouseButtonPressed)
+//         {
+//             // Handle piece selection and movement
+//         }
+//     }
+// }
+
+// In GUI class
+sf::Vector2i selectedSquare(-1, -1); // To store the selected square
+
+void GUI::handleInput() // Handle input for piece movement
 {
     sf::Event event;
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
+        {
             window.close();
+        }
 
         if (event.type == sf::Event::MouseButtonPressed)
         {
-            // Handle piece selection and movement
+            // Get mouse position in window coordinates
+            sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+            // Convert to board coordinates (assume square size is 80x80, adjust as needed)
+            int squareSize = 80;
+            sf::Vector2i boardPosition(mousePosition.x / squareSize, mousePosition.y / squareSize);
+
+            // Handle selection of piece
+            if (selectedSquare == sf::Vector2i(-1, -1)) // No piece selected yet
+            {
+                // Check if there's a piece on the clicked square
+                if (isPieceOnSquare(boardPosition)) // Check if a piece exists on the square
+                {
+                    selectedSquare = boardPosition; // Store the selected square
+                }
+            }
+            else // A piece is already selected, now move it
+            {
+                // Extract row and column for selectedSquare and boardPosition
+                int fromRow = selectedSquare.y;
+                int fromCol = selectedSquare.x;
+                int toRow = boardPosition.y;
+                int toCol = boardPosition.x;
+
+                // Attempt to move the piece from selectedSquare to boardPosition
+                if (board.isMoveValid(fromRow*8 + fromCol, toRow*8 + toCol)) // isMoveValid now takes row and col for both squares
+                {
+                    board.makeMove(fromRow*8 + fromCol, toRow*8 + toCol); // makeMove now takes row and col for both squares
+                }
+
+                // After the move or invalid attempt, reset selectedSquare
+                selectedSquare = sf::Vector2i(-1, -1);
+            }
         }
     }
 }
@@ -1069,4 +1140,16 @@ void GUI::analyzeMode()
     }
 
     window.display();
+}
+
+bool GUI::isPieceOnSquare(const sf::Vector2i& square)
+{
+    // Convert the board position to the internal board representation.
+    int boardIndex = square.y * 8 + square.x;
+
+    // Assuming your `Board` class has a function like `getPieceAt` that returns the piece.
+    Piece piece = board.getPieceAt(square.y, square.x);
+    
+    // Return true if the square contains any piece, false if it's empty.
+    return piece != Piece::EMPTY; // Assuming `Piece::Empty` is used for empty squares.
 }
