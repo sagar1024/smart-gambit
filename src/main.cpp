@@ -1,178 +1,3 @@
-// #include <SFML/Graphics.hpp>
-// #include "board.h"
-// #include "movegen.h"
-// #include "search.h"
-// #include "evaluation.h"
-// #include "gui.h"
-
-// #include <iostream>
-// #include <bits/stdc++.h>
-
-// int main()
-// {
-//     // Initialize the game
-//     Board board;
-//     MoveGenerator moveGen;
-//     Search searchEngine(5); // Set search depth, adjust as necessary
-//     GUI gui;
-
-//     // Create the main window
-//     sf::RenderWindow window(sf::VideoMode(800, 800), "SmartGambit Chess Engine");
-
-//     bool isWhiteTurn = true;
-//     bool gameEnded = false;
-
-//     while (window.isOpen())
-//     {
-//         sf::Event event;
-//         while (window.pollEvent(event))
-//         {
-//             if (event.type == sf::Event::Closed)
-//                 window.close();
-
-//             // Handle GUI events (clicks, moves, etc.)
-//             if (!gameEnded)
-//             {
-//                 gui.handleEvent(event, board, isWhiteTurn);
-
-//                 if (gui.isMoveMade())
-//                 {
-//                     // Check if the move is valid
-//                     if (moveGen.isMoveLegal(board, gui.getLastMove(), isWhiteTurn))
-//                     {
-//                         board.makeMove(gui.getLastMove().first, gui.getLastMove().second);
-//                         isWhiteTurn = !isWhiteTurn;
-
-//                         // Check for game end conditions (checkmate, stalemate)
-//                         if (moveGen.isCheckmate(board, isWhiteTurn))
-//                         {
-//                             gameEnded = true;
-//                             gui.displayEndGameMessage(isWhiteTurn ? "Black wins!" : "White wins!");
-//                         }
-//                         else if (moveGen.isStalemate(board, isWhiteTurn))
-//                         {
-//                             gameEnded = true;
-//                             gui.displayEndGameMessage("Stalemate!");
-//                         }
-//                     }
-//                 }
-
-//                 // If it's the engine's turn, search for the best move
-//                 if (!isWhiteTurn && !gameEnded)
-//                 {
-//                     std::pair<int, int> bestMove = searchEngine.searchBestMove(board, 5, isWhiteTurn);
-//                     board.makeMove(bestMove.first, bestMove.second);
-//                     isWhiteTurn = !isWhiteTurn;
-
-//                     // Check for game end conditions
-//                     if (moveGen.isCheckmate(board, isWhiteTurn))
-//                     {
-//                         gameEnded = true;
-//                         gui.displayEndGameMessage(isWhiteTurn ? "Black wins!" : "White wins!");
-//                     }
-//                     else if (moveGen.isStalemate(board, isWhiteTurn))
-//                     {
-//                         gameEnded = true;
-//                         gui.displayEndGameMessage("Stalemate!");
-//                     }
-//                 }
-//             }
-
-//             // If the game has ended, ask the player if they want to play again
-//             if (gameEnded)
-//             {
-//                 if (gui.askForReplay())
-//                 {
-//                     board.reset();
-//                     isWhiteTurn = true;
-//                     gameEnded = false;
-//                 }
-//                 else
-//                 {
-//                     window.close();
-//                 }
-//             }
-//         }
-
-//         // Clear the window
-//         window.clear();
-
-//         // Draw the current state of the board and pieces
-//         gui.render(window, board);
-
-//         // Display the window
-//         window.display();
-//     }
-
-//     return 0;
-// }
-
-// Alternate soln -
-
-// #include <iostream>
-// #include "gui.h"
-
-// void showMainMenu()
-// {
-//     std::cout << "=====================" << std::endl;
-//     std::cout << "     SmartGambit     " << std::endl;
-//     std::cout << "=====================" << std::endl;
-//     std::cout << "1. Play a game" << std::endl;
-//     std::cout << "2. Analyze a position" << std::endl;
-//     std::cout << "3. Exit" << std::endl;
-//     std::cout << "Enter your choice: ";
-// }
-
-// int main()
-// {
-//     GUI gui; // Create GUI instance to manage the game
-
-//     bool exit = false;
-//     while (!exit)
-//     {
-//         showMainMenu();
-
-//         int choice;
-//         std::cin >> choice;
-
-//         switch (choice)
-//         {
-//         case 1:
-//             gui.playMode(); // Start play mode
-//             break;
-//         case 2:
-//             gui.analyzeMode(); // Start analysis mode
-//             break;
-//         case 3:
-//             exit = true; // Exit the program
-//             std::cout << "Exiting the chess engine. Goodbye!" << std::endl;
-//             break;
-//         default:
-//             std::cout << "Invalid choice. Please try again." << std::endl;
-//         }
-//     }
-
-//     return 0;
-// }
-
-// Alternate code -
-
-// #include <iostream>
-// #include "gui.h"
-
-// int main()
-// {
-//     //Creating an instance of the GUI
-//     GUI gui;
-
-//     //Running the GUI main loop
-//     gui.run();
-
-//     return 0;
-// }
-
-// Alternate code -
-
 #include "board.h"
 #include "evaluation.h"
 #include "gui.h"
@@ -185,7 +10,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1000,1200), "SmartGambit Chess Engine");
+    sf::RenderWindow window(sf::VideoMode(1000,800), "SmartGambit Chess Engine");
 
     // Load the logo texture
     sf::Texture logoTexture;
@@ -198,7 +23,10 @@ int main()
     // Create sprite for the logo
     sf::Sprite logoSprite;
     logoSprite.setTexture(logoTexture);
-    logoSprite.setPosition(90, 10); // Position it at the top
+    logoSprite.setPosition(300, 10); // Position it at the top
+
+    // Scale down the piece sprite to fit your tile size
+    logoSprite.setScale(0.55f, 0.55f);
 
     // Load font
     sf::Font font;
@@ -220,13 +48,13 @@ int main()
         window.draw(logoSprite);
 
         // Create text for Play, Analyze, and Exit options
-        sf::Text playText("1. Play", font, 40);
-        sf::Text analyzeText("2. Analyze", font, 40);
-        sf::Text exitText("3. Exit", font, 40);
+        sf::Text playText("1. Play", font, 30);
+        sf::Text analyzeText("2. Analyze", font, 30);
+        sf::Text exitText("3. Exit", font, 30);
 
-        playText.setPosition(300, 450);
-        analyzeText.setPosition(300, 500);
-        exitText.setPosition(300, 550);
+        playText.setPosition(380, 400);
+        analyzeText.setPosition(380, 450);
+        exitText.setPosition(380, 500);
 
         window.draw(playText);
         window.draw(analyzeText);
@@ -264,8 +92,8 @@ int main()
                             sf::Text whiteText("Play as White", font, 30);
                             sf::Text blackText("Play as Black", font, 30);
 
-                            whiteText.setPosition(300, 250);
-                            blackText.setPosition(300, 350);
+                            whiteText.setPosition(380, 400);
+                            blackText.setPosition(380, 450);
 
                             window.draw(whiteText);
                             window.draw(blackText);
@@ -316,8 +144,8 @@ int main()
                             sf::Text pgnText("Import PGN", font, 30);
                             sf::Text initialText("Initial Board Setup", font, 30);
 
-                            pgnText.setPosition(300, 450);
-                            initialText.setPosition(300, 500);
+                            pgnText.setPosition(380, 400);
+                            initialText.setPosition(380, 450);
 
                             window.draw(pgnText);
                             window.draw(initialText);
