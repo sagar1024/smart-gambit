@@ -15,6 +15,7 @@ private:
 
     //Positional bonus tables for each piece
     static const int pawnTable[64];
+    static const int blackPawnTable[64];
     static const int knightTable[64];
     static const int bishopTable[64];
     static const int rookTable[64];

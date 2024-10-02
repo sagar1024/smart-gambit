@@ -1,23 +1,15 @@
-#include <iostream>
-
 #include "movegen.h"
 #include "utils.h"
 
-// Helper function to convert a square index to row and column
-// std::pair<int, int> indexToRowCol(int index)
-// {
-//     return {index / BOARD_SIZE, index % BOARD_SIZE};
-// }
+#include <iostream>
 
 std::vector<std::pair<int, int>> MoveGenerator::generateMoves(const Board &board, bool isWhiteTurn)
 {
     std::vector<std::pair<int, int>> moves;
-
     for (int square = 0; square < 64; ++square)
     {
         auto [row, col] = indexToRowCol(square);
         int piece = board.getPieceAt(row, col);
-
         if ((isWhiteTurn && piece > 0) || (!isWhiteTurn && piece < 0))
         {
             switch (std::abs(piece))
@@ -47,63 +39,20 @@ std::vector<std::pair<int, int>> MoveGenerator::generateMoves(const Board &board
     return moves;
 }
 
-// std::vector<std::pair<int, int>> MoveGenerator::generatePawnMoves(const Board &board, int startSquare, bool isWhite)
-// {
-//     std::vector<std::pair<int, int>> moves;
-//     auto [startRow, startCol] = indexToRowCol(startSquare);
-//     int direction = isWhite ? -1 : 1; // Pawns move up for white, down for black
-
-//     // Single square move
-//     int singleStepSquare = (startRow + direction) * BOARD_SIZE + startCol;
-//     if (isValidSquare(singleStepSquare) && board.getPieceAt(startRow + direction, startCol) == 0)
-//     {
-//         moves.emplace_back(startSquare, singleStepSquare);
-
-//         // Double square move from initial position
-//         if ((isWhite && startRow == 6) || (!isWhite && startRow == 1))
-//         {
-//             int doubleStepSquare = (startRow + 2 * direction) * BOARD_SIZE + startCol;
-//             if (isValidSquare(doubleStepSquare) && board.getPieceAt(startRow + 2 * direction, startCol) == 0)
-//             {
-//                 moves.emplace_back(startSquare, doubleStepSquare);
-//             }
-//         }
-//     }
-
-//     // Captures
-//     for (int colOffset : {-1, 1})
-//     {
-//         int captureRow = startRow + direction;
-//         int captureCol = startCol + colOffset;
-//         int captureSquare = captureRow * BOARD_SIZE + captureCol;
-
-//         if (isValidSquare(captureSquare))
-//         {
-//             int targetPiece = board.getPieceAt(captureRow, captureCol);
-//             if (targetPiece != 0 && ((isWhite && targetPiece < 0) || (!isWhite && targetPiece > 0)))
-//             {
-//                 moves.emplace_back(startSquare, captureSquare);
-//             }
-//         }
-//     }
-
-//     return moves;
-// }
-
 std::vector<std::pair<int, int>> MoveGenerator::generatePawnMoves(const Board &board, int startSquare, bool isWhite)
 {
     std::vector<std::pair<int, int>> moves;
     auto [startRow, startCol] = indexToRowCol(startSquare);
-    int direction = isWhite ? -1 : 1; // Pawns move up for white, down for black
+    int direction = isWhite ? -1 : 1; //Pawns move up for white, down for black
 
-    // Single square move
+    //Single square move
     int singleStepSquare = (startRow + direction) * BOARD_SIZE + startCol;
     if (isValidSquare(singleStepSquare) && board.getPieceAt(startRow + direction, startCol) == 0)
     {
-        // Check for promotion
+        //Check for promotion
         if ((isWhite && startRow + direction == 0) || (!isWhite && startRow + direction == 7))
         {
-            // Handle promotion (for simplicity, promoting to a queen)
+            //Handle promotion (for simplicity, promoting to a queen)
             moves.emplace_back(startSquare, singleStepSquare);
         }
         else
@@ -111,7 +60,7 @@ std::vector<std::pair<int, int>> MoveGenerator::generatePawnMoves(const Board &b
             moves.emplace_back(startSquare, singleStepSquare);
         }
 
-        // Double square move from initial position
+        //Double square move from initial position
         if ((isWhite && startRow == 6) || (!isWhite && startRow == 1))
         {
             int doubleStepSquare = (startRow + 2 * direction) * BOARD_SIZE + startCol;
@@ -122,7 +71,7 @@ std::vector<std::pair<int, int>> MoveGenerator::generatePawnMoves(const Board &b
         }
     }
 
-    // Captures
+    //Captures
     for (int colOffset : {-1, 1})
     {
         int captureRow = startRow + direction;
@@ -134,10 +83,10 @@ std::vector<std::pair<int, int>> MoveGenerator::generatePawnMoves(const Board &b
             int targetPiece = board.getPieceAt(captureRow, captureCol);
             if (targetPiece != 0 && ((isWhite && targetPiece < 0) || (!isWhite && targetPiece > 0)))
             {
-                // Check for promotion
+                //Checking for promotion
                 if ((isWhite && captureRow == 0) || (!isWhite && captureRow == 7))
                 {
-                    // Handle promotion (for simplicity, promoting to a queen)
+                    //Handle promotion (for simplicity, promoting to a queen)
                     moves.emplace_back(startSquare, captureSquare);
                 }
                 else
@@ -148,7 +97,7 @@ std::vector<std::pair<int, int>> MoveGenerator::generatePawnMoves(const Board &b
         }
     }
 
-    // En passant capture
+    //En passant capture
     int enPassantTarget = board.getEnPassantTargetSquare();
     if (enPassantTarget != -1)
     {
@@ -168,28 +117,6 @@ std::vector<std::pair<int, int>> MoveGenerator::generatePawnMoves(const Board &b
 
     return moves;
 }
-
-// std::vector<std::pair<int, int>> MoveGenerator::generateKnightMoves(const Board &board, int startSquare)
-// {
-//     std::vector<std::pair<int, int>> moves;
-//     static const int knightOffsets[] = {-17, -15, -10, -6, 6, 10, 15, 17};
-
-//     for (int offset : knightOffsets)
-//     {
-//         int targetSquare = startSquare + offset;
-
-//         if (isValidSquare(targetSquare))
-//         {
-//             int targetPiece = board.getPieceAt(targetSquare/BOARD_SIZE,targetSquare%BOARD_SIZE);
-//             if (targetPiece == 0 || (targetPiece > 0 && board.getPieceAt(startSquare/BOARD_SIZE,startSquare%BOARD_SIZE) < 0) || (targetPiece < 0 && board.getPieceAt(startSquare/BOARD_SIZE,startSquare%BOARD_SIZE) > 0))
-//             {
-//                 moves.emplace_back(startSquare, targetSquare);
-//             }
-//         }
-//     }
-
-//     return moves;
-// }
 
 std::vector<std::pair<int, int>> MoveGenerator::generateKnightMoves(const Board &board, int startSquare)
 {
@@ -219,38 +146,6 @@ std::vector<std::pair<int, int>> MoveGenerator::generateKnightMoves(const Board 
     return moves;
 }
 
-// std::vector<std::pair<int, int>> MoveGenerator::generateBishopMoves(const Board &board, int startSquare)
-// {
-//     std::vector<std::pair<int, int>> moves;
-//     static const int bishopOffsets[] = {-9, -7, 7, 9};
-
-//     for (int offset : bishopOffsets)
-//     {
-//         for (int n = 1; n < 8; ++n)
-//         {
-//             int targetSquare = startSquare + n * offset;
-//             if (isValidSquare(targetSquare))
-//             {
-//                 int targetPiece = board.getPieceAt(targetSquare / BOARD_SIZE, targetSquare % BOARD_SIZE);
-//                 if (targetPiece == 0)
-//                 {
-//                     moves.emplace_back(startSquare, targetSquare);
-//                 }
-//                 else
-//                 {
-//                     if ((targetPiece > 0 && board.getPieceAt(startSquare / BOARD_SIZE, startSquare % BOARD_SIZE) < 0) || (targetPiece < 0 && board.getPieceAt(startSquare / BOARD_SIZE, startSquare % BOARD_SIZE) > 0))
-//                     {
-//                         moves.emplace_back(startSquare, targetSquare);
-//                     }
-//                     break; // Blocked by another piece
-//                 }
-//             }
-//         }
-//     }
-
-//     return moves;
-// }
-
 std::vector<std::pair<int, int>> MoveGenerator::generateBishopMoves(const Board &board, int startSquare)
 {
     std::vector<std::pair<int, int>> moves;
@@ -272,61 +167,29 @@ std::vector<std::pair<int, int>> MoveGenerator::generateBishopMoves(const Board 
 
                 if (targetPiece == 0)
                 {
-                    // Empty square, valid move
+                    //Empty square, valid move
                     moves.emplace_back(startSquare, targetSquare);
                 }
                 else
                 {
-                    // Target square contains a piece
+                    //Target square contains a piece
                     if ((targetPiece > 0 && startPiece < 0) || (targetPiece < 0 && startPiece > 0))
                     {
-                        // Opponent's piece, valid capture
+                        //Opponent's piece, valid capture
                         moves.emplace_back(startSquare, targetSquare);
                     }
-                    break; // Blocked by another piece, stop exploring this direction
+                    break; //Blocked by another piece, stop exploring this direction
                 }
             }
             else
             {
-                break; // Out of bounds, stop exploring this direction
+                break; //Out of bounds, stop exploring this direction
             }
         }
     }
 
     return moves;
 }
-
-// std::vector<std::pair<int, int>> MoveGenerator::generateRookMoves(const Board &board, int startSquare)
-// {
-//     std::vector<std::pair<int, int>> moves;
-//     static const int rookOffsets[] = {-8, -1, 1, 8};
-
-//     for (int offset : rookOffsets)
-//     {
-//         for (int n = 1; n < 8; ++n)
-//         {
-//             int targetSquare = startSquare + n * offset;
-//             if (isValidSquare(targetSquare))
-//             {
-//                 int targetPiece = board.getPieceAt(targetSquare / BOARD_SIZE, targetSquare % BOARD_SIZE);
-//                 if (targetPiece == 0)
-//                 {
-//                     moves.emplace_back(startSquare, targetSquare);
-//                 }
-//                 else
-//                 {
-//                     if ((targetPiece > 0 && board.getPieceAt(startSquare / BOARD_SIZE, startSquare % BOARD_SIZE) < 0) || (targetPiece < 0 && board.getPieceAt(startSquare / BOARD_SIZE, startSquare % BOARD_SIZE) > 0))
-//                     {
-//                         moves.emplace_back(startSquare, targetSquare);
-//                     }
-//                     break; // Blocked by another piece
-//                 }
-//             }
-//         }
-//     }
-
-//     return moves;
-// }
 
 std::vector<std::pair<int, int>> MoveGenerator::generateRookMoves(const Board &board, int startSquare)
 {
@@ -349,23 +212,24 @@ std::vector<std::pair<int, int>> MoveGenerator::generateRookMoves(const Board &b
 
                 if (targetPiece == 0)
                 {
-                    // Empty square, valid move
+                    //Empty square, valid move
                     moves.emplace_back(startSquare, targetSquare);
                 }
                 else
                 {
-                    // Target square contains a piece
+                    //Target square contains a piece
                     if ((targetPiece > 0 && startPiece < 0) || (targetPiece < 0 && startPiece > 0))
                     {
-                        // Opponent's piece, valid capture
+                        //Opponent's piece, valid capture
                         moves.emplace_back(startSquare, targetSquare);
                     }
-                    break; // Blocked by another piece, stop exploring this direction
+
+                    break; //Blocked by another piece, stop exploring this direction
                 }
             }
             else
             {
-                break; // Out of bounds, stop exploring this direction
+                break; //Out of bounds, stop exploring this direction
             }
         }
     }
@@ -373,23 +237,11 @@ std::vector<std::pair<int, int>> MoveGenerator::generateRookMoves(const Board &b
     return moves;
 }
 
-// std::vector<std::pair<int, int>> MoveGenerator::generateQueenMoves(const Board &board, int startSquare)
-// {
-//     std::vector<std::pair<int, int>> moves;
-//     std::vector<std::pair<int, int>> bishopMoves = generateBishopMoves(board, startSquare);
-//     std::vector<std::pair<int, int>> rookMoves = generateRookMoves(board, startSquare);
-
-//     moves.insert(moves.end(), bishopMoves.begin(), bishopMoves.end());
-//     moves.insert(moves.end(), rookMoves.begin(), rookMoves.end());
-
-//     return moves;
-// }
-
 std::vector<std::pair<int, int>> MoveGenerator::generateQueenMoves(const Board &board, int startSquare)
 {
     std::vector<std::pair<int, int>> moves;
 
-    // Helper lambda to add moves with capture functionality
+    //Helper lambda to add moves with capture functionality
     auto addMoves = [this, &board, startSquare, &moves](const std::vector<std::pair<int, int>> &generatedMoves)
     {
         auto [startRow, startCol] = indexToRowCol(startSquare);
@@ -402,18 +254,19 @@ std::vector<std::pair<int, int>> MoveGenerator::generateQueenMoves(const Board &
 
             if (targetPiece == 0)
             {
-                // Empty square, valid move
+                //Empty square, valid move
                 moves.emplace_back(fromSquare, toSquare);
             }
             else
             {
-                // Target square contains a piece
+                //Target square contains a piece
                 if ((targetPiece > 0 && startPiece < 0) || (targetPiece < 0 && startPiece > 0))
                 {
-                    // Opponent's piece, valid capture
+                    //Opponent's piece, valid capture
                     moves.emplace_back(fromSquare, toSquare);
                 }
-                // Stop exploring this direction if a piece is encountered
+
+                //Stop exploring this direction if a piece is encountered
                 break;
             }
         }
@@ -429,27 +282,6 @@ std::vector<std::pair<int, int>> MoveGenerator::generateQueenMoves(const Board &
 
     return moves;
 }
-
-// std::vector<std::pair<int, int>> MoveGenerator::generateKingMoves(const Board &board, int startSquare)
-// {
-//     std::vector<std::pair<int, int>> moves;
-//     static const int kingOffsets[] = {-9, -8, -7, -1, 1, 7, 8, 9};
-
-//     for (int offset : kingOffsets)
-//     {
-//         int targetSquare = startSquare + offset;
-//         if (isValidSquare(targetSquare))
-//         {
-//             int targetPiece = board.getPieceAt(targetSquare / BOARD_SIZE, targetSquare % BOARD_SIZE);
-//             if (targetPiece == 0 || (targetPiece > 0 && board.getPieceAt(startSquare / BOARD_SIZE, startSquare % BOARD_SIZE) < 0) || (targetPiece < 0 && board.getPieceAt(startSquare / BOARD_SIZE, startSquare % BOARD_SIZE) > 0))
-//             {
-//                 moves.emplace_back(startSquare, targetSquare);
-//             }
-//         }
-//     }
-
-//     return moves;
-// }
 
 std::vector<std::pair<int, int>> MoveGenerator::generateKingMoves(const Board &board, int startSquare)
 {
@@ -486,36 +318,6 @@ bool MoveGenerator::isValidSquare(int square)
 }
 
 // RULE IMPLEMENTATION
-// CASTLING
-
-// std::vector<std::pair<int, int>> MoveGenerator::generateCastlingMoves(const Board &board, bool isWhiteTurn)
-// {
-//     std::vector<std::pair<int, int>> moves;
-
-//     // Assuming the castling rights and checks are tracked in the Board class.
-//     if (board.canCastleKingSide())
-//     {
-//         if (board.isEmptySquare(startSquare + 1) && board.isEmptySquare(startSquare + 2))
-//         {
-//             if (!isInCheck(board, startSquare) && !isInCheck(board, startSquare + 1) && !isInCheck(board, startSquare + 2))
-//             {
-//                 moves.emplace_back(startSquare, startSquare + 2); // King-side castling
-//             }
-//         }
-//     }
-//     if (board.canCastleQueenSide())
-//     {
-//         if (board.isEmptySquare(startSquare - 1) && board.isEmptySquare(startSquare - 2) && board.isEmptySquare(startSquare - 3))
-//         {
-//             if (!isInCheck(board, startSquare) && !isInCheck(board, startSquare - 1) && !isInCheck(board, startSquare - 2))
-//             {
-//                 moves.emplace_back(startSquare, startSquare - 2); // Queen-side castling
-//             }
-//         }
-//     }
-
-//     return moves;
-// }
 
 // Function to generate castling moves
 std::vector<std::pair<int, int>> MoveGenerator::generateCastlingMoves(const Board &board, bool isWhiteTurn)
@@ -526,21 +328,21 @@ std::vector<std::pair<int, int>> MoveGenerator::generateCastlingMoves(const Boar
     {
         if (board.canCastleKingSide(true)) // Pass true for white
         {
-            if (board.isEmptySquare(0, 5) && board.isEmptySquare(0, 6))
+            if (board.isEmptySquare(7, 5) && board.isEmptySquare(7, 6))
             {
-                if (!board.isSquareUnderAttack(0, 4, isWhiteTurn) && !board.isSquareUnderAttack(0, 5, isWhiteTurn) && !board.isSquareUnderAttack(0, 6, isWhiteTurn))
+                if (!board.isSquareUnderAttack(7, 4, isWhiteTurn) && !board.isSquareUnderAttack(7, 5, isWhiteTurn) && !board.isSquareUnderAttack(7, 6, isWhiteTurn))
                 {
-                    moves.emplace_back(4, 6); // King-side castling for white
+                    moves.emplace_back(60, 62); // King-side castling for white
                 }
             }
         }
         if (board.canCastleQueenSide(true)) // Pass true for white
         {
-            if (board.isEmptySquare(0, 1) && board.isEmptySquare(0, 2) && board.isEmptySquare(0, 3))
+            if (board.isEmptySquare(7, 1) && board.isEmptySquare(7, 2) && board.isEmptySquare(7, 3))
             {
-                if (!board.isSquareUnderAttack(0, 4, isWhiteTurn) && !board.isSquareUnderAttack(0, 3, isWhiteTurn) && !board.isSquareUnderAttack(0, 2, isWhiteTurn))
+                if (!board.isSquareUnderAttack(7, 4, isWhiteTurn) && !board.isSquareUnderAttack(7, 3, isWhiteTurn) && !board.isSquareUnderAttack(7, 2, isWhiteTurn))
                 {
-                    moves.emplace_back(4, 2); // Queen-side castling for white
+                    moves.emplace_back(60, 58); // Queen-side castling for white
                 }
             }
         }
@@ -549,21 +351,21 @@ std::vector<std::pair<int, int>> MoveGenerator::generateCastlingMoves(const Boar
     {
         if (board.canCastleKingSide(false)) // Pass false for black
         {
-            if (board.isEmptySquare(7, 5) && board.isEmptySquare(7, 6))
+            if (board.isEmptySquare(0, 5) && board.isEmptySquare(0, 6))
             {
-                if (!board.isSquareUnderAttack(7, 4, isWhiteTurn) && !board.isSquareUnderAttack(7, 5, isWhiteTurn) && !board.isSquareUnderAttack(7, 6, isWhiteTurn))
+                if (!board.isSquareUnderAttack(0, 4, isWhiteTurn) && !board.isSquareUnderAttack(0, 5, isWhiteTurn) && !board.isSquareUnderAttack(0, 6, isWhiteTurn))
                 {
-                    moves.emplace_back(60, 62); // King-side castling for black
+                    moves.emplace_back(4,6); // King-side castling for black
                 }
             }
         }
         if (board.canCastleQueenSide(false)) // Pass false for black
         {
-            if (board.isEmptySquare(7, 1) && board.isEmptySquare(7, 2) && board.isEmptySquare(7, 3))
+            if (board.isEmptySquare(0, 1) && board.isEmptySquare(0, 2) && board.isEmptySquare(0, 3))
             {
-                if (!board.isSquareUnderAttack(7, 4, isWhiteTurn) && !board.isSquareUnderAttack(7, 3, isWhiteTurn) && !board.isSquareUnderAttack(7, 2, isWhiteTurn))
+                if (!board.isSquareUnderAttack(0, 4, isWhiteTurn) && !board.isSquareUnderAttack(0, 3, isWhiteTurn) && !board.isSquareUnderAttack(0, 2, isWhiteTurn))
                 {
-                    moves.emplace_back(60, 58); // Queen-side castling for black
+                    moves.emplace_back(4,2); // Queen-side castling for black
                 }
             }
         }
@@ -607,12 +409,6 @@ bool MoveGenerator::isCheckmate(const Board &board, int kingSquare)
 
     return true;
 }
-
-// bool MoveGenerator::isStalemate(const Board &board)
-// {
-//     std::vector<Move> legalMoves = getValidMoves(board, board.isWhiteTurn());
-//     return legalMoves.empty() && !isCheckmate(board, board.isWhiteTurn() ? board.whiteKingSquare : board.blackKingSquare);
-// }
 
 bool MoveGenerator::isStalemate(const Board &board)
 {

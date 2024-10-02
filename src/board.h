@@ -34,41 +34,24 @@ const int BOARD_SIZE = 8;
 class Board
 {
 public:
-    Board();                                  // Constructor to initialize the board
-    void displayBoard() const;                // Function to display the board
+    Board(); // Constructor to initialize the board
+    void setupInitialPosition(); //Function to set up the initial chess position
+    void displayBoard() const; // Function to display the board
+    
     Piece getPieceAt(int row, int col) const; // Function to get the piece at a specific row and column
 
-    void setupInitialPosition(); // Function to set up the initial chess position
-
     bool isEmptySquare(int row, int col) const;
-
-    // Function to apply a move
-    void makeMove(int fromSquare, int toSquare);
-
-    // Function to check if a square is under attack by any opponent's piece
-    bool isSquareUnderAttack(int row, int col, bool isWhiteTurn) const;
-
-    // Function to get valid moves
-    std::vector<int> getValidMoves(int square);
-    std::vector<int> pieceMoves(int square);
+    void makeMove(int fromSquare, int toSquare); // Function to apply a move
+    bool isSquareUnderAttack(int row, int col, bool isWhiteTurn) const; // Function to check if a square is under attack by any opponent's piece
     bool isMoveValid(int fromSquare, int toSquare);
-
-    // Functions for castling and checking if a square is empty
-    bool canCastleKingSide(bool isWhiteTurn) const;
+    bool canCastleKingSide(bool isWhiteTurn) const; // Functions for castling and checking if a square is empty
     bool canCastleQueenSide(bool isWhiteTurn) const;
+    void setEnPassantTargetSquare(int square); // Function to set the en passant target square
+    int getEnPassantTargetSquare() const; // Function to get the en passant target square
 
-    // Function to set the en passant target square
-    void setEnPassantTargetSquare(int square);
+    std::vector<int> getValidMoves(int square); // Function to get valid moves
+    std::vector<int> pieceMoves(int square);
 
-    // Function to get the en passant target square
-    int getEnPassantTargetSquare() const;
-
-    // struct Move
-    // {
-    //     int from;
-    //     int to;
-    //     Move(int fromSquare, int toSquare) : from(fromSquare), to(toSquare) {}
-    // };
     struct Move
     {
         int from;
@@ -76,9 +59,9 @@ public:
         Move(int fromSquare, int toSquare) : from(fromSquare), to(toSquare) {}
     };
 
-    //Reset the board
-    void resetBoard();
+    void resetBoard(); //Reset the board
 
+    //For tracking the king
     int whiteKingSquare;
     int blackKingSquare;
 
@@ -96,7 +79,7 @@ public:
         }
     }
 
-    bool isWhiteTurn;  // Track whose turn it is (true for White, false for Black)
+    bool isWhiteTurn;  //Track whose turn it is (true for White, false for Black)
     
     // Function to switch turns after every move
     void switchTurn()
@@ -110,9 +93,6 @@ public:
 private:
     std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> board; // 8x8 board
 
-    // Variable to store the en passant target square
-    int enPassantTargetSquare;
-
     bool whiteKingMoved;
     bool whiteRookKingSideMoved;
     bool whiteRookQueenSideMoved;
@@ -121,8 +101,11 @@ private:
     bool blackRookKingSideMoved;
     bool blackRookQueenSideMoved;
 
-    std::stack<Move> moveHistory; // Stack to store the history of moves
-    std::stack<Piece> capturedPieces; // Stack to store captured pieces
+    //Variable to store the en passant target square
+    int enPassantTargetSquare;
+
+    std::stack<Move> moveHistory; //Stack to store the history of moves
+    std::stack<Piece> capturedPieces; //Stack to store captured pieces
 };
 
 #endif // BOARD_H

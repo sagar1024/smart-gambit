@@ -51,7 +51,22 @@ void GUI::loadTextures()
 void GUI::drawBoard()
 {
     // Chessboard starts at the top-left corner
-    float squareSize = boardTexture.getSize().x / 8.0f; // Assuming the texture is 8x8 squares
+    // float squareSize = boardTexture.getSize().x / 8.0f; // Assuming the texture is 8x8 squares
+    float squareSize = boardTexture.getSize().x / 8.0f;
+    float boardSize = squareSize * 8.0f; // Total size of the chessboard (8 squares)
+
+    // Get the window size
+    sf::Vector2u windowSize = window.getSize();
+
+    // Calculate the top-left corner position to center the board
+    float boardX = (windowSize.x - boardSize) / 2.0f;
+    float boardY = (windowSize.y - boardSize) / 2.0f;
+
+    // Now, when drawing the board, use the calculated position (boardX, boardY)
+    // Example:
+    sf::Sprite boardSprite(boardTexture);
+    boardSprite.setPosition(boardX, boardY);
+    window.draw(boardSprite);
 
     // Loop through the rows and columns of the chessboard
     for (int row = 0; row < 8; ++row)
@@ -80,10 +95,43 @@ void GUI::drawBoard()
     }
 
     // Draw the SmartGambit logo at the top of the window
-    window.draw(logoSprite);
+    //window.draw(logoSprite);
 
     // Draw the pieces on the chessboard after the board squares
     drawPieces();
+}
+
+std::string getPieceTextureName(int piece)
+{
+    switch (piece)
+    {
+    case PAWN_W:
+        return "whitePawn";
+    case KNIGHT_W:
+        return "whiteKnight";
+    case BISHOP_W:
+        return "whiteBishop";
+    case ROOK_W:
+        return "whiteRook";
+    case QUEEN_W:
+        return "whiteQueen";
+    case KING_W:
+        return "whiteKing";
+    case PAWN_B:
+        return "blackPawn";
+    case KNIGHT_B:
+        return "blackKnight";
+    case BISHOP_B:
+        return "blackBishop";
+    case ROOK_B:
+        return "blackRook";
+    case QUEEN_B:
+        return "blackQueen";
+    case KING_B:
+        return "blackKing";
+    default:
+        return "";
+    }
 }
 
 // Function to draw the chess pieces
@@ -123,7 +171,24 @@ void GUI::drawPieces()
                 pieceSprite.setTexture(pieceTextures["blackKing"]);
 
             // Scale down the piece sprite to fit your tile size
-            pieceSprite.setScale(0.05f, 0.05f);
+            // pieceSprite.setScale(0.05f, 0.05f);
+            // pieceSprite.setScale(tileSize / pieceTextures.getSize().x, tileSize / pieceTextures.getSize().y);
+            // pieceSprite.setScale(
+            //     tileSize / pieceTextures[piece].getSize().x,
+            //     tileSize / pieceTextures[piece].getSize().y);
+
+            std::string textureKey = getPieceTextureName(piece);
+            if (!textureKey.empty())
+            {
+                // pieceSprite.setTexture(pieceTextures[textureKey]);
+
+                pieceSprite.setScale(
+                    tileSize / pieceTextures[textureKey].getSize().x,
+                    tileSize / pieceTextures[textureKey].getSize().y);
+
+                // pieceSprite.setPosition(col * tileSize, row * tileSize);
+                // window.draw(pieceSprite);
+            }
 
             // Set the position of the piece on the board
             pieceSprite.setPosition(col * tileSize, (row + 1) * tileSize); // Adjust based on grid size
@@ -172,9 +237,9 @@ void GUI::handleInput() // Handle input for piece movement
                 int toCol = boardPosition.x;
 
                 // Attempt to move the piece from selectedSquare to boardPosition
-                if (board.isMoveValid(fromRow*8 + fromCol, toRow*8 + toCol)) // isMoveValid now takes row and col for both squares
+                if (board.isMoveValid(fromRow * 8 + fromCol, toRow * 8 + toCol)) // isMoveValid now takes row and col for both squares
                 {
-                    board.makeMove(fromRow*8 + fromCol, toRow*8 + toCol); // makeMove now takes row and col for both squares
+                    board.makeMove(fromRow * 8 + fromCol, toRow * 8 + toCol); // makeMove now takes row and col for both squares
                 }
 
                 // After the move or invalid attempt, reset selectedSquare
@@ -182,6 +247,14 @@ void GUI::handleInput() // Handle input for piece movement
             }
         }
     }
+}
+
+void GUI::highlightSquare(sf::Vector2i square)
+{
+    sf::RectangleShape highlight(sf::Vector2f(tileSize, tileSize));
+    highlight.setPosition(square.x * tileSize, square.y * tileSize);
+    highlight.setFillColor(sf::Color(255, 255, 0, 100)); // Yellow with some transparency
+    window.draw(highlight);
 }
 
 // Handle main menu for selecting Play, Analyze, or Exit
@@ -449,14 +522,84 @@ void GUI::analyzeMode()
     window.display();
 }
 
-bool GUI::isPieceOnSquare(const sf::Vector2i& square)
+bool GUI::isPieceOnSquare(const sf::Vector2i &square)
 {
     // Convert the board position to the internal board representation.
     int boardIndex = square.y * 8 + square.x;
 
     // Assuming your `Board` class has a function like `getPieceAt` that returns the piece.
     Piece piece = board.getPieceAt(square.y, square.x);
-    
+
     // Return true if the square contains any piece, false if it's empty.
     return piece != Piece::EMPTY;
+}
+
+void GUI::showGameOverScreen(bool isWhiteWinner)
+{
+    sf::Font font;
+    font.loadFromFile("texture/font.ttf");
+
+    sf::Text resultText(isWhiteWinner ? "White won!" : "Black won!", font, 50);
+    resultText.setPosition(100, 300); // Adjust this to center it
+    window.draw(resultText);
+
+    // Button for Restart
+    sf::Text restartButton("Restart", font, 30);
+    restartButton.setPosition(100, 400); // Adjust the position
+    window.draw(restartButton);
+
+    // Button for Exit
+    sf::Text exitButton("Exit", font, 30);
+    exitButton.setPosition(100, 500); // Adjust the position
+    window.draw(exitButton);
+
+    // Display the window with text
+    window.display();
+
+    // Event handling for clicking the buttons
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+        {
+            window.close();
+        }
+        else if (event.type == sf::Event::MouseButtonPressed)
+        {
+            if (event.mouseButton.button == sf::Mouse::Left)
+            {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                // Check if restart button is clicked
+                if (restartButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                {
+                    // Call your restart function
+                    restartGame();
+                }
+
+                // Check if exit button is clicked
+                if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                {
+                    window.close(); // Exit the game
+                }
+            }
+        }
+    }
+}
+
+void GUI::restartGame()
+{
+    // Reset the board to the initial state
+    board.resetBoard(); // Assuming you have a chess engine object with a resetBoard function
+
+    // Reset any GUI-specific elements
+    isGameOver = false;
+
+    // currentPlayer = WHITE;  // Or whatever indicates the current turn
+    isWhiteTurn = true;
+
+    // You may need to refresh the GUI
+    window.clear();
+    drawBoard();
+    window.display();
 }

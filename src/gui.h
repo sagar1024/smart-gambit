@@ -1,65 +1,3 @@
-// #ifndef GUI_H
-// #define GUI_H
-
-// #include <SFML/Graphics.hpp>
-
-// #include "board.h"
-// #include "movegen.h"
-// #include <vector>
-// #include <string>
-
-// enum GameMode
-// {
-//     PLAY_MODE,
-//     ANALYZE_MODE
-// };
-
-// class GUI
-// {
-// public:
-//     GUI();
-//     void run();
-
-//     //Defining functions
-//     void drawLogo();
-//     void drawMenu();
-
-// private:
-//     // Window and GUI elements
-//     sf::RenderWindow window;
-//     sf::Texture logoTexture;
-//     sf::Sprite logoSprite;
-//     sf::Texture piecesTextures[12];   // 6 piece types for both white and black
-//     sf::RectangleShape squares[8][8]; // Board squares
-//     sf::Font font;
-//     sf::Text menuText;
-
-//     // Game state
-//     Board board;
-//     MoveGenerator moveGen;
-//     std::vector<sf::Sprite> piecesSprites;
-//     int selectedPiece;
-//     bool isWhiteTurn;
-//     GameMode mode;
-
-//     // Load resources
-//     void loadTextures();
-//     void loadLogo();
-//     void drawBoard();
-//     void drawPieces();
-//     void handleMouseClick(int x, int y);
-//     void displayModeSelection();
-//     void displayColorSelection();
-//     void loadAnalyzeMode();
-//     void importPGN(const std::string &pgnFile);
-//     bool isGameOver();
-//     void resetGame();
-//     void makeEngineMove();
-//     void showEndGameMessage();
-// };
-
-// #endif // GUI_H
-
 #ifndef GUI_H
 #define GUI_H
 
@@ -83,6 +21,12 @@ public:
     // Play Mode and Analyze Mode
     void playMode(bool isWhite);    // Play game logic
     void analyzeMode(); // Analyze game logic
+
+    void highlightSquare(sf::Vector2i square);
+    void showGameOverScreen(bool isWhiteWinner);
+    void restartGame();
+
+    bool isGameOver;
 
 private:
     // Window and textures
