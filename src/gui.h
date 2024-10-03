@@ -1,39 +1,39 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include <SFML/Graphics.hpp>
 #include "board.h"
 #include "movegen.h"
 #include "evaluation.h"
 #include "search.h"
+
+#include <SFML/Graphics.hpp>
 #include <map>
 #include <string>
 
 class GUI
 {
 public:
-    GUI(sf::RenderWindow &window); // Constructor to load textures and initialize the window
+    GUI(sf::RenderWindow &window); //Constructor to load textures and initialize the window
 
-    void run(); // Main loop for running the GUI (handling play and analyze modes)
+    void run(); //Main loop for running the GUI (handling play and analyze modes)
 
     bool isWhite;
+    bool isGameOver;
 
     // Play Mode and Analyze Mode
-    void playMode(bool isWhite);    // Play game logic
-    void analyzeMode(); // Analyze game logic
+    void playMode(bool isWhite);
+    void analyzeMode();
 
     void highlightSquare(sf::Vector2i square);
     void showGameOverScreen(bool isWhiteWinner);
     void restartGame();
 
-    bool isGameOver;
-
 private:
-    // Window and textures
+    //Window and textures
     sf::RenderWindow &window; //Refrence to the window(Important!)
     sf::Texture boardTexture, whitePiecesTexture, blackPiecesTexture, logoTexture;
     std::map<std::string, sf::Texture> pieceTextures;
-
+    
     // Sprites for board, pieces, and logo
     sf::Sprite boardSprite;
     sf::Sprite logoSprite;

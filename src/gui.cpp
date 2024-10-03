@@ -51,7 +51,6 @@ void GUI::loadTextures()
 void GUI::drawBoard()
 {
     // Chessboard starts at the top-left corner
-    // float squareSize = boardTexture.getSize().x / 8.0f; // Assuming the texture is 8x8 squares
     float squareSize = boardTexture.getSize().x / 8.0f;
     float boardSize = squareSize * 8.0f; // Total size of the chessboard (8 squares)
 
@@ -63,7 +62,6 @@ void GUI::drawBoard()
     float boardY = (windowSize.y - boardSize) / 2.0f;
 
     // Now, when drawing the board, use the calculated position (boardX, boardY)
-    // Example:
     sf::Sprite boardSprite(boardTexture);
     boardSprite.setPosition(boardX, boardY);
     window.draw(boardSprite);
@@ -93,9 +91,6 @@ void GUI::drawBoard()
             window.draw(square);
         }
     }
-
-    // Draw the SmartGambit logo at the top of the window
-    //window.draw(logoSprite);
 
     // Draw the pieces on the chessboard after the board squares
     drawPieces();
@@ -377,6 +372,7 @@ void GUI::playMode(bool isWhite)
         // Display turn information
         sf::Font font;
         font.loadFromFile("texture/font.ttf");
+
         sf::Text turnText(isWhiteTurn ? "White to move" : "Black to move", font, 30);
         turnText.setPosition(100, 650); // Position below the board
         window.draw(turnText);
@@ -590,13 +586,10 @@ void GUI::showGameOverScreen(bool isWhiteWinner)
 void GUI::restartGame()
 {
     // Reset the board to the initial state
-    board.resetBoard(); // Assuming you have a chess engine object with a resetBoard function
+    board.resetBoard();
 
-    // Reset any GUI-specific elements
-    isGameOver = false;
-
-    // currentPlayer = WHITE;  // Or whatever indicates the current turn
-    isWhiteTurn = true;
+    isGameOver = false; // Reset any GUI-specific elements
+    isWhiteTurn = true; // Or whatever indicates the current turn
 
     // You may need to refresh the GUI
     window.clear();
