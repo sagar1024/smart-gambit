@@ -491,7 +491,7 @@ void GUI::analyzeMode()
             else if (resetButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
             {
                 // Reset the board
-                board.reset();
+                //board.reset();
             }
             else if (evaluationButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
             {
