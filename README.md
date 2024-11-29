@@ -4,7 +4,7 @@ SmartGambit is a chess engine that evaluates a given chess position and searches
 
 #### Tech stack -
 
-C++ to build the core game engine
+C++ for the core game engine
 
 Cmake for compilation
 
