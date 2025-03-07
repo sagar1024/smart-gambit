@@ -8,4 +8,4 @@ C++ for core engine, Cmake for compilation, SFML for graphics.
 
 ---
 
-Note - It is currently under development.
+Note - This project is currently under development.
